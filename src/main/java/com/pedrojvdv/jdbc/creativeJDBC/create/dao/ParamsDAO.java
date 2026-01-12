@@ -54,7 +54,7 @@ public class ParamsDAO {
         }
     }
 
-    public int updateParam(String sql, String novoNome, String novoEmail, Integer novaIdade, int id) {
+    public void updateParam(String sql, String novoNome, String novoEmail, Integer novaIdade, int id) {
         try {
             PreparedStatement stmt = getConnection().prepareStatement(sql);
 
@@ -82,14 +82,14 @@ public class ParamsDAO {
             System.out.println("SQL final: " + stmt);
             System.out.println("-----");
 
-            return stmt.executeUpdate();
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public int deleteParam(String sql, int id) {
+    public void deleteParam(String sql, int id) {
         try {
             PreparedStatement stmt = getConnection().prepareStatement(sql);
             stmt.setInt(1, id);
@@ -98,14 +98,12 @@ public class ParamsDAO {
             System.out.println("SQL final: " + stmt);
             System.out.println("------");
 
-            return stmt.executeUpdate();
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-
 
     java.sql.Connection getConnection() {
         return Connection.getConnection();

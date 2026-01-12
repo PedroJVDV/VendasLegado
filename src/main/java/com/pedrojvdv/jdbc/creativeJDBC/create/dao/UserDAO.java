@@ -16,6 +16,7 @@ public class UserDAO extends Users {
         super(id, email, nome);
     }
 
+    // here they create, that's it
     public void createUser() {
         try {
 
@@ -36,6 +37,7 @@ public class UserDAO extends Users {
 
     }
 
+    // insert users into database, nothing special here!
     public void insertUser() {
         try {
 
@@ -47,7 +49,6 @@ public class UserDAO extends Users {
                 System.out.println("Erros de validação encontrados. Digite os dados corretamente!");
                 return;
             }
-
 
             if (!emailExists(users.getEmail())) {
                 System.out.println("Usuario incluido com sucesso!");
@@ -69,6 +70,7 @@ public class UserDAO extends Users {
         }
     }
 
+    // list all user on database, just id, email and name;
     public void listUsers() {
 
         String sql = "SELECT * FROM usuarios";
@@ -78,7 +80,7 @@ public class UserDAO extends Users {
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet ResultSet = stmt.executeQuery()) {
 
-            // passamos todos os usuarios da QUERY para dentro da lista de usuarios,
+            // now, all the users in a query has inside a list
             // * somente id, email e nome!
             while (ResultSet.next()) {
                 Users usuario = new Users(ResultSet.getInt("id")
@@ -87,7 +89,7 @@ public class UserDAO extends Users {
                 usuarios.add(usuario);
             }
 
-            //imprime a consulta no console
+            //show the sql command line on console
             for (Users user : usuarios) {
                 System.out.println("ID: " + user.getId() +
                         " | Nome: " + user.getNome() +
@@ -98,8 +100,7 @@ public class UserDAO extends Users {
         }
     }
 
-    // busca usuarios por ID
-
+    // search the users by ID
     public void idSearch() {
 
         Scanner scanner = new Scanner(System.in);
@@ -140,9 +141,10 @@ public class UserDAO extends Users {
             System.out.println("-----");
         }
     }
-
+    
+    // this layer is supposed to modify any user what you want, if they ID don't exist, nothing happens; this code layers change with coalesce command!
     public void updateUser(Scanner scanner) {
-
+        
         try {
             System.out.println("Digite o ID do usuario que deseja fazer alterações: ");
             int id = scanner.nextInt();
@@ -190,7 +192,7 @@ public class UserDAO extends Users {
                 return;
             }
 
-            // COALESCE --> se o valor do parametro for nulo, ou seja, não for inserido, o objeto permanecera igual!
+            // COALESCE --> se o valor do parametro for nulo, ou seja, não for inserido, o objeto permanecera igual! --> this affirmation are not real, i think --> change this later!
             String sql = "UPDATE usuarios SET " +
                     "nome = COALESCE(?, nome)," +
                     "email = COALESCE(?, email)," +
@@ -211,8 +213,10 @@ public class UserDAO extends Users {
         }
     }
 
-    public void deleteUser() {
 
+    // chose the user who will be deleted, this layer has a confirmation to delete and a try-catch to errors!
+    public void deleteUser() {
+        
         try {
             Scanner scanner = new Scanner(System.in);
 
@@ -251,8 +255,7 @@ public class UserDAO extends Users {
 
     }
 
-    // verifica se o email existe e alega se sim ou não, caso não exista o email sera adicionado ao banco, caso exista não adiciona!
-
+    // if the email exists they don't do anything, else, they will redirect to the database! if exists he dont add!!!
     public boolean emailExists(String email) {
 
         String sql = "SELECT 1 FROM usuarios WHERE email = ? LIMIT 1";

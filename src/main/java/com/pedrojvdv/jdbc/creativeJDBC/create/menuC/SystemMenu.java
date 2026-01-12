@@ -1,4 +1,6 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.dao;
+package com.pedrojvdv.jdbc.creativeJDBC.create.menuC;
+
+import com.pedrojvdv.jdbc.creativeJDBC.create.dao.UserDAO;
 
 import java.util.Scanner;
 
