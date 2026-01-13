@@ -1,7 +1,7 @@
 package com.pedrojvdv.jdbc.creativeJDBC.create.validation;
 
-import com.pedrojvdv.jdbc.creativeJDBC.create.userCreative.Users;
-import com.pedrojvdv.jdbc.creativeJDBC.create.exceptions.AgeException;
+import com.pedrojvdv.jdbc.creativeJDBC.create.model.Users;
+import com.pedrojvdv.jdbc.creativeJDBC.create.exception.AgeException;
 
 import java.util.ArrayList;
 import java.util.List;

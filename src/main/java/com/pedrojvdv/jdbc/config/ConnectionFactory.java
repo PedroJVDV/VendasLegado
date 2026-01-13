@@ -1,11 +1,11 @@
-package com.pedrojvdv.jdbc;
+package com.pedrojvdv.jdbc.config;
 
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Connection {
+public class ConnectionFactory {
 
     public static java.sql.Connection getConnection() {
         try {
@@ -23,7 +23,7 @@ public class Connection {
     private static Properties getProperties() throws IOException {
         Properties properties = new Properties();
         String way = "/connection.properties";
-        properties.load(Connection.class.getResourceAsStream(way));
+        properties.load(ConnectionFactory.class.getResourceAsStream(way));
         return properties;
     }
 

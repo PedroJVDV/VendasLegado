@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.menuC;
+package com.pedrojvdv.jdbc.creativeJDBC.create.view;
 
 import com.pedrojvdv.jdbc.creativeJDBC.create.dao.UserDAO;
 

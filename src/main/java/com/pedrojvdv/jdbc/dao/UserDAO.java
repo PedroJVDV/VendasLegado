@@ -1,7 +1,7 @@
 package com.pedrojvdv.jdbc.creativeJDBC.create.dao;
 
 import com.pedrojvdv.jdbc.Connection;
-import com.pedrojvdv.jdbc.creativeJDBC.create.userCreative.Users;
+import com.pedrojvdv.jdbc.creativeJDBC.create.model.Users;
 import com.pedrojvdv.jdbc.creativeJDBC.create.validation.UserValidation;
 
 import java.sql.PreparedStatement;
@@ -192,7 +192,7 @@ public class UserDAO extends Users {
                 return;
             }
 
-            // COALESCE --> se o valor do parametro for nulo, ou seja, não for inserido, o objeto permanecera igual! --> this affirmation are not real, i think --> change this later!
+            // COALESCE --> se o valor do parametro for nulo, ou seja, não for inserido, o objeto permanecera igual! --> this affirmation are not real, I think --> change this later!
             String sql = "UPDATE usuarios SET " +
                     "nome = COALESCE(?, nome)," +
                     "email = COALESCE(?, email)," +
@@ -255,7 +255,7 @@ public class UserDAO extends Users {
 
     }
 
-    // if the email exists they don't do anything, else, they will redirect to the database! if exists he dont add!!!
+    // if the email exists they don't do anything, else, they will redirect to the database! if exists, they don't add!!!
     public boolean emailExists(String email) {
 
         String sql = "SELECT 1 FROM usuarios WHERE email = ? LIMIT 1";

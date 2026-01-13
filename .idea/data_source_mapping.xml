@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/26f476f9-48ee-4b31-b15e-c02e7618c7cc/console.sql" value="26f476f9-48ee-4b31-b15e-c02e7618c7cc" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pedrojvdv/jdbc/creativeJDBC/create/dao/UserDAO.java" value="26f476f9-48ee-4b31-b15e-c02e7618c7cc" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pedrojvdv/jdbc/creativeJDBC/create/tableCreation/data.sql" value="26f476f9-48ee-4b31-b15e-c02e7618c7cc" />
+  </component>
+</project>
