@@ -9,7 +9,6 @@ Este é um projeto desenvolvido em **Java, JDBC, MySQL e Padrão de Projeto DAO.
 
 ##
 <img width="812" height="482" alt="arquitetura" src="https://github.com/user-attachments/assets/e6e79cca-8584-4bd7-84cc-e98c2d2bdda3" />
-##
 
 ## Observações:
 Este projeto foi desenvolvido como parte da minha jornada de aprendizado em Java.
