@@ -1,7 +1,7 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.validation;
+package com.pedrojvdv.jdbc.validation;
 
-import com.pedrojvdv.jdbc.creativeJDBC.create.model.Users;
-import com.pedrojvdv.jdbc.creativeJDBC.create.exception.AgeException;
+import com.pedrojvdv.jdbc.model.Users;
+import com.pedrojvdv.jdbc.exception.AgeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public final class UserValidation {
     public static List<String> listValidate(Users users) {
         List<String> errorsList = new ArrayList<>();
 
-        // aqui retorna a lista de erros, está armazenado todas as mensagens e etc...
+        // aqui retorna a lista de erros, está armazenado todas as mensagens etc.
         if (users == null) {
             errorsList.add("Usuário não pode ser nulo!");
             return errorsList;

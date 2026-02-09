@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.model;
+package com.pedrojvdv.jdbc.model;
 
 public class Users {
 

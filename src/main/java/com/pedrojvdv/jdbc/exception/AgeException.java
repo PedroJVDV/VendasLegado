@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.exception;
+package com.pedrojvdv.jdbc.exception;
 
 public class AgeException extends RuntimeException {
 

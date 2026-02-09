@@ -1,6 +1,6 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.dao;
+package com.pedrojvdv.jdbc.dao;
 
-import com.pedrojvdv.jdbc.Connection;
+import com.pedrojvdv.jdbc.config.ConnectionFactory;
 
 import java.sql.*;
 
@@ -105,8 +105,7 @@ public class ParamsDAO {
         }
     }
 
-    java.sql.Connection getConnection() {
-        return Connection.getConnection();
+    java.sql.Connection getConnection() { return ConnectionFactory.getConnection() ;
     }
 
 }

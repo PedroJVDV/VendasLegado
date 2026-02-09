@@ -1,6 +1,6 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.view;
+package com.pedrojvdv.jdbc.view;
 
-import com.pedrojvdv.jdbc.creativeJDBC.create.dao.UserDAO;
+import com.pedrojvdv.jdbc.dao.UserDAO;
 
 import java.util.Scanner;
 

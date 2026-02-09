@@ -51,18 +51,18 @@ public class ProductQueries {
             """;
 
     public static final String FIND_BY_DATE = """
-f            SELECT
-                p.name,
-                p.price,
-                p.available,
-                p.stock,
-                d.percentage,
-                COALESCE(d.percentage, 0) AS discount_percentage,
-                p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
+            SELECT
+                 p.name,
+                 p.price,
+                 p.available,
+                 p.stock,
+                 d.percentage,
+                 COALESCE(d.percentage, 0) AS discount_percentage,
+                 p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
             FROM products p
             LEFT JOIN  discount d
-                ON p.id = d.product_id
-                AND d.active = TRUE
+                 ON p.id = d.product_id
+                 AND d.active = TRUE
             WHERE DATE (p.created_at ) = ?
             AND p.available = TRUE
             ORDER BY p.created_at DESC, p.name ASC

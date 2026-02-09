@@ -1,8 +1,8 @@
-package com.pedrojvdv.jdbc.creativeJDBC.create.dao;
+package com.pedrojvdv.jdbc.dao;
 
-import com.pedrojvdv.jdbc.Connection;
-import com.pedrojvdv.jdbc.creativeJDBC.create.model.Users;
-import com.pedrojvdv.jdbc.creativeJDBC.create.validation.UserValidation;
+import com.pedrojvdv.jdbc.config.ConnectionFactory;
+import com.pedrojvdv.jdbc.model.Users;
+import com.pedrojvdv.jdbc.validation.UserValidation;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,6 +61,7 @@ public class UserDAO extends Users {
 
             String sql = "INSERT INTO usuarios (nome, email, idade) VALUES (?, ?, ?)";
 
+
             ParamsDAO paramsDAO = new ParamsDAO();
             int id = paramsDAO.insertParam(sql, getNome(), getEmail(), getIdade());
             System.out.println("ID gerado: " + id);
@@ -76,7 +77,7 @@ public class UserDAO extends Users {
         String sql = "SELECT * FROM usuarios";
         List<Users> usuarios = new ArrayList<>();
 
-        try (java.sql.Connection connection = Connection.getConnection();
+        try (java.sql.Connection connection = ConnectionFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet ResultSet = stmt.executeQuery()) {
 
@@ -89,7 +90,7 @@ public class UserDAO extends Users {
                 usuarios.add(usuario);
             }
 
-            //show the sql command line on console
+            //show the SQL command line on console
             for (Users user : usuarios) {
                 System.out.println("ID: " + user.getId() +
                         " | Nome: " + user.getNome() +
@@ -111,7 +112,7 @@ public class UserDAO extends Users {
 
         String sql = "SELECT * FROM usuarios WHERE id = ?";
 
-        try (java.sql.Connection connection = Connection.getConnection();
+        try (java.sql.Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
 
@@ -259,7 +260,7 @@ public class UserDAO extends Users {
     public boolean emailExists(String email) {
 
         String sql = "SELECT 1 FROM usuarios WHERE email = ? LIMIT 1";
-        try (java.sql.Connection conn = Connection.getConnection();
+        try (java.sql.Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
