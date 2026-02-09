@@ -10,13 +10,24 @@ Este é um projeto desenvolvido em **Java, JDBC, MySQL e Padrão de Projeto DAO.
 ##
 <img width="812" height="482" alt="arquitetura" src="https://github.com/user-attachments/assets/e6e79cca-8584-4bd7-84cc-e98c2d2bdda3" />
 
+## EM PRODUÇÃO:
+- Novas funcionalidades necessárias
+- Otimização do código geral
+- Resolução de bugs
+- Redução de linhas desnecessárias
+- Refatoramento de funcionalidades complexas
+- Novas validações e excessões 
+- Aprimoramento da segurança (SQL injection, Code injection)
+
+Ao fim de tudo será produzido uma apresentação da **primeira fase** do projeto, explicando todos os conceitos e experiência de produção.
+
+*Acompanhe o desenvolvimento e sinta-se confortável para opinar compartilhar e até mesmo participar desse projeto!*
+
 ## Observações:
-Este projeto foi desenvolvido como parte da minha jornada de aprendizado em Java.
-É um projeto simples, mas funcional, e pode ser útil para quem deseja estudar e se aprofundar um pouco mais na linguagem.
-**Novas funcionalidades e resoluções de BUGS podem ser adicionadas no futuro, conforme meu progresso nos estudos!**
+Este projeto está sendo desenvolvido como parte da minha jornada de aprendizado em Java.
+**Novas funcionalidades e resoluções de BUGS podem ser adicionadas no futuro, conforme meu progresso!**
 
-
-| 💡 Quer trocar ideias ou conhecer mais projetos? |
+|    Quer trocar ideias ou conhecer mais projetos? |
 |--------------------------------------------------|
 | Acesse meu portfólio, fique à vontade para me chamar e fazer **network**! Isso ajuda a fortalecer a comunidade de desenvolvedores Java e gera oportunidades para todos. |
 | 🌐 [Meu Portfólio](https://github.com/PedroJVDV) |

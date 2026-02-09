@@ -25,7 +25,6 @@
 
     <build>
         <plugins>
-            <!-- Plugin do compilador -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -36,7 +35,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin EXEC - Para executar classes -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
