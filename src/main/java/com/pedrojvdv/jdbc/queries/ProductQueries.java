@@ -2,6 +2,25 @@ package com.pedrojvdv.jdbc.queries;
 
 public class ProductQueries {
 
+    public static final String FIND_BY_ID = """
+            SELECT
+                p.id,
+                p.name,
+                p.price,
+                p.stock,
+                p.category,
+                p.description,
+                p.available,
+                p.created_at,
+                COALESCE(d.percentage, 0) AS discount_percentage,
+                p.price * (1 - COALESCE(d.percentage, 0) / 100) AS final_price
+            FROM products p
+            LEFT JOIN discount d
+                ON p.id = d.product_id
+                AND d.active = TRUE
+            WHERE p.id = ?
+            """;
+    
     public static final String FIND_ALL_PRODUCTS = """
             SELECT
                 p.name,
