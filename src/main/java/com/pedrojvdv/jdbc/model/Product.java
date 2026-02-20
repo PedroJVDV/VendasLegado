@@ -15,6 +15,7 @@ public class Product {
     private Boolean available;
     private LocalDateTime createdAt;
 
+
     private BigDecimal discountPercentage;
     private BigDecimal finalPrice;
 
@@ -46,6 +47,10 @@ public class Product {
 
     public String getName() {return name;}
 
+    public BigDecimal getDiscountPercentage() {return discountPercentage;}
+
+    public BigDecimal getFinalPrice() {return finalPrice;}
+
 
     // Setters
 
@@ -65,4 +70,7 @@ public class Product {
 
     public void setName(String name) {this.name = name;}
 
+    public void setDiscountPercentage(BigDecimal discountPercentage) {this.discountPercentage = discountPercentage;}
+
+    public void setFinalPrice(BigDecimal finalPrice) {this.finalPrice = finalPrice;}
 }
