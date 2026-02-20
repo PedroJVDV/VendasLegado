@@ -20,14 +20,16 @@ public class ProductQueries {
                 AND d.active = TRUE
             WHERE p.id = ?
             """;
-    
+
     public static final String FIND_ALL_PRODUCTS = """
             SELECT
+                p.id,
                 p.name,
                 p.price,
                 p.stock,
                 p.category,
                 p.description,
+                p.available,
                 p.created_at,
                 COALESCE(d.percentage, 0) AS discount_percentage,
                 p.price * (1 - COALESCE(d.percentage, 0) / 100) AS final_price
@@ -42,8 +44,8 @@ public class ProductQueries {
             SELECT
                 p.name,
                 p.price,
-                COALESCE(p.category, 'no category') AS product_category,
-                COALESCE(p.description, 'no description') AS product_description,
+                p.category,
+                p.description,
                 p.stock,
                 COALESCE(d.percentage, 0) AS discount_percentage,
                 p.price * (1 - COALESCE(d.percentage, 0) / 100 ) AS final_price
@@ -60,13 +62,13 @@ public class ProductQueries {
                 p.name,
                 p.price,
                 p.available,
-                d.percentage,
-                p.price*( 1 - d.percentage, 0) / 100 ) AS final_price
+                COALESCE(d.percentage, 0) AS discount_percentage,
+                p.price*( 1 - COALESCE(d.percentage, 0) / 100 ) AS final_price
             FROM products p
             INNER JOIN discount d
                 ON p.id = d.product_id AND d.active = TRUE
             WHERE p.available = TRUE
-            ORDER BY final_price ASC
+            ORDER BY d.percentage DESC
             """;
 
     public static final String FIND_BY_DATE = """
@@ -75,7 +77,6 @@ public class ProductQueries {
                  p.price,
                  p.available,
                  p.stock,
-                 d.percentage,
                  COALESCE(d.percentage, 0) AS discount_percentage,
                  p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
             FROM products p
@@ -91,7 +92,7 @@ public class ProductQueries {
             SELECT
                 p.name,
                 p.price,
-                COALESCE(p.stock, 0) AS none_stock,
+                p.stock,
                 p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
             FROM products p
             LEFT JOIN discount d
@@ -105,6 +106,7 @@ public class ProductQueries {
             SELECT
                p.name,
                p.price,
+               p.category,
                p.available,
                p.stock,
                COALESCE(d.percentage, 0) AS discount_percentage,
