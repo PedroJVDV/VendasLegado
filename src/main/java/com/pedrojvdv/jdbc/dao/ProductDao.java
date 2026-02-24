@@ -72,6 +72,8 @@ public class ProductDao {
 
     public List<Product> findProductWithDiscount() throws SQLException {
 
+        // TODO: exception when don't have product with discount on DB!! (we need todo new exceptions!!)
+        
         List<Product> discountProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_DISCOUNT_PRODUCTS;
 
