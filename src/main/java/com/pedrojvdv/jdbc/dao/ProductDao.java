@@ -85,6 +85,96 @@ public class ProductDao {
 
     }
 
+    public List<Product> findProductsByDate(LocalDate date) throws SQLException {
+
+        if (date == null) {
+            //TODO: make new exception --> new functions ++
+        }
+        List<Product> dateProducts = new ArrayList<>();
+        String sql = ProductQueries.FIND_BY_DATE;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(date));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                dateProducts.add(mapResultSetToProduct(rs));
+            }
+            return dateProducts;
+        }
+    }
+
+    public List<Product> findSoldOutProducts() throws SQLException {
+
+        List<Product> soldOutProducts = new ArrayList<>();
+        String sql = ProductQueries.FIND_SOLD_PRODUCTS;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                soldOutProducts.add(mapResultSetToProduct(rs));
+            }
+        }
+        return soldOutProducts;
+    }
+
+    public List<Product> findProductByName(String name) throws SQLException {
+
+        List<Product> productsName = new ArrayList<>();
+        String sql = ProductQueries.FIND_BY_NAME;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + name.trim() + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                productsName.add(mapResultSetToProduct(rs));
+            }
+        }
+        return productsName;
+    }
+
+    public List<Product> findByMaxPrice(BigDecimal maxPrice) throws SQLException {
+
+        List<Product> priceProducts = new ArrayList<>();
+        String sql = ProductQueries.FIND_BY_PRICE;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setBigDecimal(1, maxPrice);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                priceProducts.add(mapResultSetToProduct(rs));
+            }
+        }
+        return priceProducts;
+    }
+
+    public List<Product> findPriceByRange(BigDecimal minPrice, BigDecimal maxPrice) throws SQLException {
+
+        // TODO: exceptions
+        List<Product> rangeProducts = new ArrayList<>();
+        String sql = ProductQueries.FIND_BY_PRICE_RANGE;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setBigDecimal(1, minPrice);
+            stmt.setBigDecimal(2, maxPrice);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+
+                rangeProducts.add(mapResultSetToProduct(rs));
+            }
+        }
+        return rangeProducts;
+    }
+
+    // TODO: comments ++
+    // torna tudo mais flexível com o banco de dados
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
 
