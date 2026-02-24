@@ -135,4 +135,23 @@ public class ProductQueries {
             AND p.available = TRUE
             ORDER BY p.price ASC
             """;
+
+    public static final String FIND_BY_PRICE_RANGE = """
+            SELECT
+                p.name,
+                p.price,
+                p.available,
+                p.stock,
+                COALESCE(d.percentage, 0) AS discount_percentage,
+                p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
+            FROM products p
+            LEFT JOIN discount d
+                 ON p.id = d.product_id
+                 AND d.active = TRUE
+            WHERE p.price BETWEEN ? AND ?
+            AND p.available = TRUE
+            ORDER BY p.price ASC
+            """;
+
+    // TODO: FIND BY PRICE RANGE:
 }
