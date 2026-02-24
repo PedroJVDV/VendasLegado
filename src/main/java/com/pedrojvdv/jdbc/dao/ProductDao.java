@@ -33,7 +33,7 @@ public class ProductDao {
         return null;
     }
 
-    public List<Product> findAll() throws SQLException {
+    public List<Product> findAllProducts() throws SQLException {
 
         List<Product> productList = new ArrayList<>();
 
