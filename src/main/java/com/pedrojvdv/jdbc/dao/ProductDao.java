@@ -50,7 +50,7 @@ public class ProductDao {
         }
     }
 
-    public List<Product> findByCategory(String category) throws SQLException {
+    public List<Product> findProductsByCategory(String category) throws SQLException {
 
         if (category == null || category.trim().isEmpty()) {
             throw new IllegalArgumentException("Categoria não pode estar vazia!!");
