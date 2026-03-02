@@ -8,11 +8,14 @@ public class Discount {
     private Long id;
     private Long productId;
     private boolean active;
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private BigDecimal percentage;
     private DiscountType type;
-    private Integer duration_hours;
+    private Integer durationHours;
+
+    private String productName;
+    private BigDecimal productPrice;
 
     public Discount() {
     }
@@ -23,12 +26,29 @@ public class Discount {
         this.type = type;
     }
 
-    public Integer getDuration_hours() {
-        return duration_hours;
+
+    public String getProductName() {
+        return productName;
     }
 
-    public void setDuration_hours(Integer duration_hours) {
-        this.duration_hours = duration_hours;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public BigDecimal getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public Integer getDurationHours() {
+        return durationHours;
+    }
+
+    public void setDurationHours(Integer durationHours) {
+        this.durationHours = durationHours;
     }
 
     public DiscountType getType() {
@@ -47,20 +67,20 @@ public class Discount {
         this.percentage = percentage;
     }
 
-    public LocalDate getEnd_date() {
-        return end_date;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(LocalDate end_date) {
-        this.end_date = end_date;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
-    public LocalDate getStart_date() {
-        return start_date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(LocalDate start_date) {
-        this.start_date = start_date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
     public boolean isActive() {
@@ -90,17 +110,17 @@ public class Discount {
     //TODO: comments @++
 
     public boolean isExpired(){
-        if (end_date == null){
+        if (endDate == null){
             return false;
         }
-        return LocalDate.now().isAfter(end_date);
+        return LocalDate.now().isAfter(endDate);
     }
 
     public boolean isScheduled(){
-        if (start_date == null){
+        if (startDate == null){
             return false;
         }
-        return LocalDate.now().isBefore(start_date);
+        return LocalDate.now().isBefore(startDate);
     }
 
     public boolean isActivated(){
@@ -115,11 +135,11 @@ public class Discount {
                 "id=" + id +
                 ", productId=" + productId +
                 ", active=" + active +
-                ", start_date=" + start_date +
-                ", end_date=" + end_date +
+                ", start_date=" + startDate +
+                ", end_date=" + endDate +
                 ", percentage=" + percentage +
                 ", type=" + type +
-                ", duration_hours=" + duration_hours +
+                ", duration_hours=" + durationHours +
                 '}';
     }
 }
