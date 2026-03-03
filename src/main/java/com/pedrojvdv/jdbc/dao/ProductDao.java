@@ -17,6 +17,51 @@ public class ProductDao {
         this.connection = connection;
     }
 
+    public void createProduct(Product product)throws SQLException{
+        String sql = ProductCrudQueries.INSERT_PRODUCT;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setString(1, product.getName());
+            stmt.setBigDecimal(2, product.getPrice());
+            stmt.setString(3, product.getDescription());
+            stmt.setString(4, product.getCategory());
+            stmt.setInt(5, product.getStock());
+            stmt.setBoolean(6, product.getAvailable());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateProducts(Product product) throws SQLException{
+        String sql = ProductCrudQueries.UPDATE_PRODUCTS;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setObject(1, product.getName());
+            stmt.setObject(2, product.getPrice());
+            stmt.setObject(3, product.getDescription());
+            stmt.setObject(4, product.getCategory());
+            stmt.setObject(5, product.getStock());
+            stmt.setObject(6, product.getAvailable());
+            stmt.setLong(7, product.getId());
+        }
+    }
+
+    public void deleteProduct(Product product) throws SQLException{
+        String sql = ProductCrudQueries.DELETE_PRODUCT;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setLong(1, product.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void softDeleteProduct(Product product)throws SQLException{
+        String sql = ProductCrudQueries.SOFT_DELETE_PRODUCT;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setLong(1, product.getId());
+            stmt.executeUpdate();
+        }
+    }
     public Product findById(Long id) throws SQLException {
 
         String sql = ProductQueries.FIND_BY_ID;
