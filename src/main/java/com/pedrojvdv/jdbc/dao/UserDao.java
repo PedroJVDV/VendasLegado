@@ -254,6 +254,14 @@ public class UserDAO extends Users {
             System.out.println("-----");
         }
 
+    private User mapResultToUser(ResultSet rs) throws SQLException{
+        User user = new User();
+        user.setId(rs.getLong("id"));
+        user.setName(rs.getString("name"));
+        user.setEmail(rs.getString("email"));
+        user.setAge(rs.getInt("age"));
+        user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        return user;
     }
 
     // if the email exists they don't do anything, else, they will redirect to the database! if exists, they don't add!!!
