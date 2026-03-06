@@ -1,5 +1,14 @@
 package com.pedrojvdv.jdbc.validation;
 
+import com.pedrojvdv.jdbc.exception.DiscountValidationException;
+import com.pedrojvdv.jdbc.exception.ProductValidationException;
+import com.pedrojvdv.jdbc.model.Discount;
+
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class DiscountValidation {
 
 
