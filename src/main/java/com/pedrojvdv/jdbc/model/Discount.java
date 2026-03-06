@@ -13,6 +13,9 @@ public class Discount {
     private BigDecimal percentage;
     private DiscountType type;
     private Integer durationHours;
+    private Product product;
+    private Product stock;
+
 
     private String productName;
     private BigDecimal productPrice;
@@ -26,6 +29,22 @@ public class Discount {
         this.type = type;
     }
 
+
+    public Product getStock() {
+        return stock;
+    }
+
+    public void setStock(Product stock) {
+        this.stock = stock;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public String getProductName() {
         return productName;
