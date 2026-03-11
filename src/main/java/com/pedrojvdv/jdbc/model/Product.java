@@ -1,7 +1,6 @@
 package com.pedrojvdv.jdbc.model;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 public class Product {
@@ -10,11 +9,12 @@ public class Product {
     private String name;
     private BigDecimal price;
     private String description;
-    private String category;
-    private int stock;
+    private Category category;
+    private Integer stock;
     private Boolean available;
     private LocalDateTime createdAt;
-
+    private DiscountType discountType;
+    private Discount discount;
 
     private BigDecimal discountPercentage;
     private BigDecimal finalPrice;
@@ -22,14 +22,29 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, int stock, Boolean available) {
+    public Product(String name, BigDecimal price, Integer stock, Boolean available) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.available = true;
     }
 
-    // Getters
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public DiscountType getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(DiscountType discountType) {
+        this.discountType = discountType;
+    }
 
     public Long getId() {return id;}
 
@@ -37,9 +52,9 @@ public class Product {
 
     public Boolean getAvailable() {return available;}
 
-    public int getStock() {return stock;}
+    public Integer getStock() {return stock;}
 
-    public String getCategory() {return category;}
+    public Category getCategory() {return category;}
 
     public String getDescription() {return description;}
 
@@ -52,17 +67,15 @@ public class Product {
     public BigDecimal getFinalPrice() {return finalPrice;}
 
 
-    // Setters
-
     public void setId(Long id) {this.id = id;}
 
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 
     public void setAvailable(Boolean available) {this.available = available;}
 
-    public void setStock(int stock) {this.stock = stock;}
+    public void setStock(Integer stock) {this.stock = stock; this.available = stock >= 1;}
 
-    public void setCategory(String category) {this.category = category;}
+    public void setCategory(Category category) {this.category = category;}
 
     public void setDescription(String description) {this.description = description;}
 
