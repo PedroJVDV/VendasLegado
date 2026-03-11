@@ -9,7 +9,8 @@ public class DiscountCrudQueries {
     // TODO: separated functions by admin
     public static final String UPDATE_DISCOUNT = """
             UPDATE discount
-            SET type = COALESCE(?, type), percentage = COALESCE(?, percentage), duration_hours = COALESCE(?, duration_hours)
+            SET type = COALESCE(?, type), percentage = COALESCE(?, percentage), duration_hours = COALESCE(?, duration_hours),
+            start_date = COALESCE(?, start_date), end_date = COALESCE(?, end_date)
             WHERE id = ?
             """;
     public static final String UPDATE_END_DATE = """
@@ -21,7 +22,6 @@ public class DiscountCrudQueries {
             DELETE from discount
             WHERE id = ?
             """;
-
     public static final String SOFT_DELETE_DISCOUNT = """
              UPDATE discount
              SET active = FALSE
