@@ -17,9 +17,9 @@ public class DiscountValidation {
         switch (discount.getType()) {
 
             case FLASH_SALE -> validateFlashSale(discount, stock);
-            case PERMANENT -> validatePermanent(discount);
-            case SCHEDULED -> validateScheduled(discount);
-            case TEMPORARY -> validateTemporary(discount);
+            case PERMANENT -> validatePermanent(discount, stock);
+            case SCHEDULED -> validateScheduled(discount, stock);
+            case TEMPORARY -> validateTemporary(discount, stock);
 
             default -> throw new DiscountValidationException("Não corresponde a nenhum tipo de desconto!");
         }
@@ -29,9 +29,14 @@ public class DiscountValidation {
         int duration = discount.getDurationHours();
         BigDecimal discountPercentage = discount.getPercentage();
 
-
         if (duration < 1 || duration > 6) {
             throw new DiscountValidationException("Ofertas relâmpagos precisam ter duração minima de 1 hora e máxima de 6 horas!");
+        }
+
+        if (duration >= 4) {
+            if (stock < 35 || stock > 45) {
+                throw new DiscountValidationException("Para duração maior 4h o stock deve ser entre 35 e 45!");
+            }
         }
 
         if (discountPercentage.compareTo(BigDecimal.valueOf(20)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(70)) > 0) {
@@ -46,60 +51,69 @@ public class DiscountValidation {
                 throw new DiscountValidationException("Desconto para oferta de 2 horas deve ser exatamente 60%");
             }
         }
-        if (duration == 3){
+        if (duration == 3) {
             if (stock < 20 || stock > 30) {
-                throw new ProductValidationException("O estoque para ofertas relâmpago de 3 horas devem ser entre 20 e 30 unidades!");
+                throw new DiscountValidationException("O estoque para ofertas relâmpago de 3 horas devem ser entre 20 e 30 unidades!");
             }
-        if (discountPercentage.compareTo(BigDecimal.valueOf(40)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(55)) > 0) {
-            throw new DiscountValidationException("Ofertas com 3 horas de duração devem ter entre 40% e 55% de desconto!");
+            if (discountPercentage.compareTo(BigDecimal.valueOf(40)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(55)) > 0) {
+                throw new DiscountValidationException("Ofertas com 3 horas de duração devem ter entre 40% e 55% de desconto!");
+            }
+        }
+
+        // TODO: freight logic
+    }
+
+    private void validateScheduled(Discount discount, Integer stock) {
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = discount.getStartDate();
+        LocalDate endDate = discount.getEndDate();
+        BigDecimal discountPercentage = discount.getPercentage();
+
+        if (ChronoUnit.DAYS.between(today, startDate) < 10) {
+            throw new DiscountValidationException("Desconto agendado precisa ter no mínimo 10 dias de antecedência");
+        }
+        if (ChronoUnit.DAYS.between(today, startDate) > 31) {
+            throw new DiscountValidationException("Desconto não pode ter mais de 31 dias de antecedência");
+        }
+        if (ChronoUnit.DAYS.between(startDate, endDate) != 15) {
+            throw new DiscountValidationException("Duração de um desconto agendado é de 15 dias!");
+        }
+        if (discountPercentage.compareTo(BigDecimal.valueOf(20)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(50)) > 0) {
+            throw new DiscountValidationException("Desconto agendado possui desconto mínimo de 20% e máximo de 50%!");
+        }
+
+        if (stock < 30 || stock > 40) {
+            throw new DiscountValidationException("Desconto agendado requer estoque mínimo de 30 unidades e máximo de 40!");
+        }
+
+    }
+
+    private void validateTemporary(Discount discount, Integer stock) {
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = discount.getStartDate();
+        LocalDate endDate = discount.getEndDate();
+        BigDecimal discountPercentage = discount.getPercentage();
+
+        long duration = ChronoUnit.DAYS.between(startDate, endDate);
+
+        if (duration < 15) {
+            throw new DiscountValidationException("Duração minima do desconto temporário tem que ser de 15 dias!");
+        }
+        if (duration > 31) {
+            throw new DiscountValidationException("Duração máxima do desconto temporário não pode ser maior que 31 dias!");
+        }
+        if (discountPercentage.compareTo(BigDecimal.valueOf(10)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(50)) > 0) {
+            throw new DiscountValidationException("Desconto mínimo temporário é de 10%, e o desconto máximo temporário é de 50%!");
+        }
+
+        if (stock != 60) {
+            throw new DiscountValidationException("Desconto temporario tem stock fixo em 60 unidades!");
         }
     }
 
-    // TODO: freight logic
-}
+    private void validatePermanent(Discount discount, Integer stock) {
+        // TODO: cart products -> make the DB -> productCount --> Freight logic
 
-private void validateScheduled(Discount discount) {
-    LocalDate today = LocalDate.now();
-    LocalDate startDate = discount.getStartDate();
-    LocalDate endDate = discount.getEndDate();
-    BigDecimal discountPercentage = discount.getPercentage();
-
-    if (ChronoUnit.DAYS.between(today, startDate) < 10){
-        throw new DiscountValidationException("Desconto agendado precisa ter no mínimo 10 dias de antecedência");
     }
-    if (ChronoUnit.DAYS.between(today, startDate) > 31){
-        throw new DiscountValidationException("Desconto não pode ter mais de 31 dias de antecedência");
-    }
-    if (ChronoUnit.DAYS.between(startDate, endDate) !=15) {
-        throw new DiscountValidationException("Duração máxima de um desconto agendado é de 15 dias!");
-    }
-    if (discountPercentage.compareTo(BigDecimal.valueOf(20)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(50)) > 0){
-        throw new DiscountValidationException("Desconto agendado possui desconto mínimo de 20% e máximo de 50%!");
-    }
-}
-
-private void validateTemporary(Discount discount) {
-      LocalDate today = LocalDate.now();
-      LocalDate startDate = discount.getStartDate();
-      LocalDate endDate = discount.getEndDate();
-      BigDecimal discountPercentage = discount.getPercentage();
-
-      long duration = ChronoUnit.DAYS.between(startDate, endDate);
-
-      if (duration < 15) {
-          throw new DiscountValidationException("Duração minima do desconto temporário tem que ser de 15 dias!");
-      }
-      if (duration > 31){
-          throw new DiscountValidationException("Duração máxima do desconto temporário não pode ser maior que 31 dias!");
-      }
-      if (discountPercentage.compareTo(BigDecimal.valueOf(10)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(50)) > 0 ){
-          throw new DiscountValidationException("Desconto mínimo temporário é de 10%, e o desconto máximo temporário é de 50%!");
-      }
-}
-
-private void validatePermanent(Discount discount) {
-    // TODO: cart products -> make the DB -> productCount --> Freight logic
-
-}
 
 }
