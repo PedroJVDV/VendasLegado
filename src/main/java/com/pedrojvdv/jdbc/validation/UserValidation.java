@@ -1,6 +1,6 @@
 package com.pedrojvdv.jdbc.validation;
 
-import com.pedrojvdv.jdbc.model.Users;
+import com.pedrojvdv.jdbc.model.User;
 import com.pedrojvdv.jdbc.exception.AgeException;
 
 import java.util.ArrayList;
@@ -20,23 +20,23 @@ public final class UserValidation {
     private UserValidation() {
     }
 
-    public static List<String> listValidate(Users users) {
+    public static List<String> listValidate(User user) {
         List<String> errorsList = new ArrayList<>();
 
         // aqui retorna a lista de erros, está armazenado todas as mensagens etc.
-        if (users == null) {
+        if (user == null) {
             errorsList.add("Usuário não pode ser nulo!");
             return errorsList;
         }
 
-        String nome = users.getNome();
+        String nome = user.getName();
         if (nome == null || nome.trim().isEmpty()) {
             errorsList.add("É obrigatório ter um nome!");
         } else if (nome.trim().length() < 3) {
             errorsList.add("Nome deve conter ao menos 3 caracteres");
         }
 
-        String email = users.getEmail();
+        String email = user.getEmail();
         if (email == null || email.trim().isEmpty()) {
             errorsList.add("É obrigatório ter email");
         } else if (!EMAIL_PATT.matcher(email).matches()) {
@@ -44,7 +44,7 @@ public final class UserValidation {
         }
 
         try {
-            int idade = users.getIdade();
+            int idade = user.getAge();
             if (idade <= 0) {
                 errorsList.add("Idade inválida, digite uma válida.");
             } else if (idade < 16) {
@@ -55,8 +55,6 @@ public final class UserValidation {
         } catch (AgeException e) {
             throw new RuntimeException(e);
         }
-
         return errorsList;
     }
-
 }
