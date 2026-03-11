@@ -1,6 +1,8 @@
 package com.pedrojvdv.jdbc.dao;
 
+import com.pedrojvdv.jdbc.model.Category;
 import com.pedrojvdv.jdbc.model.Product;
+import com.pedrojvdv.jdbc.queries.ProductCrudQueries;
 import com.pedrojvdv.jdbc.queries.ProductQueries;
 
 import java.math.BigDecimal;
@@ -16,7 +18,6 @@ public class ProductDao {
     public ProductDao(Connection connection) {
         this.connection = connection;
     }
-
     public void createProduct(Product product)throws SQLException{
         String sql = ProductCrudQueries.INSERT_PRODUCT;
 
@@ -24,13 +25,12 @@ public class ProductDao {
             stmt.setString(1, product.getName());
             stmt.setBigDecimal(2, product.getPrice());
             stmt.setString(3, product.getDescription());
-            stmt.setString(4, product.getCategory());
+            stmt.setString(4, product.getCategory().name());
             stmt.setInt(5, product.getStock());
             stmt.setBoolean(6, product.getAvailable());
             stmt.executeUpdate();
         }
     }
-
     public void updateProducts(Product product) throws SQLException{
         String sql = ProductCrudQueries.UPDATE_PRODUCTS;
 
@@ -44,7 +44,6 @@ public class ProductDao {
             stmt.setLong(7, product.getId());
         }
     }
-
     public void deleteProduct(Product product) throws SQLException{
         String sql = ProductCrudQueries.DELETE_PRODUCT;
 
@@ -77,7 +76,6 @@ public class ProductDao {
         }
         return null;
     }
-
     public List<Product> findAllProducts() throws SQLException {
 
         List<Product> productList = new ArrayList<>();
@@ -94,7 +92,6 @@ public class ProductDao {
             return productList;
         }
     }
-
     public List<Product> findProductsByCategory(String category) throws SQLException {
 
         if (category == null || category.trim().isEmpty()) {
@@ -114,11 +111,10 @@ public class ProductDao {
             return productsCategoryList;
         }
     }
-
     public List<Product> findProductWithDiscount() throws SQLException {
 
         // TODO: exception when don't have product with discount on DB!! (we need todo new exceptions!!)
-        
+
         List<Product> discountProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_DISCOUNT_PRODUCTS;
 
@@ -132,7 +128,6 @@ public class ProductDao {
         }
 
     }
-
     public List<Product> findProductsByDate(LocalDate date) throws SQLException {
 
         if (date == null) {
@@ -151,7 +146,6 @@ public class ProductDao {
             return dateProducts;
         }
     }
-
     public List<Product> findSoldOutProducts() throws SQLException {
 
         List<Product> soldOutProducts = new ArrayList<>();
@@ -166,7 +160,6 @@ public class ProductDao {
         }
         return soldOutProducts;
     }
-
     public List<Product> findProductByName(String name) throws SQLException {
 
         List<Product> productsName = new ArrayList<>();
@@ -183,7 +176,6 @@ public class ProductDao {
         }
         return productsName;
     }
-
     public List<Product> findByMaxPrice(BigDecimal maxPrice) throws SQLException {
 
         List<Product> priceProducts = new ArrayList<>();
@@ -200,7 +192,6 @@ public class ProductDao {
         }
         return priceProducts;
     }
-
     public List<Product> findPriceByRange(BigDecimal minPrice, BigDecimal maxPrice) throws SQLException {
 
         // TODO: exceptions
@@ -220,13 +211,11 @@ public class ProductDao {
         }
         return rangeProducts;
     }
-
     // TODO: comments ++
     // torna tudo mais flexível com o banco de dados
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
 
-        // DADOS BÁSICOS
         if (hasColumn(rs, "id")) {
             product.setId(rs.getLong("id"));
         }
@@ -236,29 +225,21 @@ public class ProductDao {
         if (hasColumn(rs, "price")) {
             product.setPrice(rs.getBigDecimal("price"));
         }
-
-        // CATEGORIZAÇÃO DO PRODUTO
         if (hasColumn(rs, "category")) {
-            product.setCategory(rs.getString("category"));
+            product.setCategory(Category.valueOf(rs.getString("category")));
         }
         if (hasColumn(rs, "description")) {
             product.setDescription(rs.getString("description"));
         }
-
-        // AUDITORIA
         if (hasColumn(rs, "created_at")) {
             product.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         }
-
-        // ESTOQUE E DISPONIBILIDADE
         if (hasColumn(rs, "stock")) {
             product.setStock(rs.getInt("stock"));
         }
         if (hasColumn(rs, "available")) {
             product.setAvailable(rs.getBoolean("available"));
         }
-
-        // DESCONTO - CÁLCULOS REALIZADOS
         if (hasColumn(rs, "discount_percentage")) {
             product.setDiscountPercentage(rs.getBigDecimal("discount_percentage"));
         }
