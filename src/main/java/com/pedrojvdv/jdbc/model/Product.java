@@ -26,7 +26,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.available = true;
+        this.available = available;
     }
 
 
