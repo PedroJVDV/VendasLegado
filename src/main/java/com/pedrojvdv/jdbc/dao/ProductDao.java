@@ -15,13 +15,15 @@ public class ProductDao {
 
     private final Connection connection;
 
+
     public ProductDao(Connection connection) {
         this.connection = connection;
     }
-    public void createProduct(Product product)throws SQLException{
+
+    public void createProduct(Product product) throws SQLException {
         String sql = ProductCrudQueries.INSERT_PRODUCT;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
             stmt.setBigDecimal(2, product.getPrice());
             stmt.setString(3, product.getDescription());
@@ -31,10 +33,11 @@ public class ProductDao {
             stmt.executeUpdate();
         }
     }
-    public void updateProducts(Product product) throws SQLException{
+
+    public void updateProducts(Product product) throws SQLException {
         String sql = ProductCrudQueries.UPDATE_PRODUCTS;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, product.getName());
             stmt.setObject(2, product.getPrice());
             stmt.setObject(3, product.getDescription());
@@ -42,25 +45,28 @@ public class ProductDao {
             stmt.setObject(5, product.getStock());
             stmt.setObject(6, product.getAvailable());
             stmt.setLong(7, product.getId());
+            stmt.executeUpdate();
         }
     }
-    public void deleteProduct(Product product) throws SQLException{
+
+    public void deleteProduct(Product product) throws SQLException {
         String sql = ProductCrudQueries.DELETE_PRODUCT;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, product.getId());
             stmt.executeUpdate();
         }
     }
 
-    public void softDeleteProduct(Product product)throws SQLException{
+    public void softDeleteProduct(Product product) throws SQLException {
         String sql = ProductCrudQueries.SOFT_DELETE_PRODUCT;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, product.getId());
             stmt.executeUpdate();
         }
     }
+
     public Product findById(Long id) throws SQLException {
 
         String sql = ProductQueries.FIND_BY_ID;
@@ -76,6 +82,7 @@ public class ProductDao {
         }
         return null;
     }
+
     public List<Product> findAllProducts() throws SQLException {
 
         List<Product> productList = new ArrayList<>();
@@ -92,16 +99,17 @@ public class ProductDao {
             return productList;
         }
     }
-    public List<Product> findProductsByCategory(String category) throws SQLException {
 
-        if (category == null || category.trim().isEmpty()) {
+    public List<Product> findProductByCategory(Category category) throws SQLException {
+
+        if (category == null) {
             throw new IllegalArgumentException("Categoria não pode estar vazia!!");
         }
         List<Product> productsCategoryList = new ArrayList<>();
         String sql = ProductQueries.FIND_BY_CATEGORY;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, category);
+            stmt.setObject(1, category);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -111,6 +119,7 @@ public class ProductDao {
             return productsCategoryList;
         }
     }
+
     public List<Product> findProductWithDiscount() throws SQLException {
 
         // TODO: exception when don't have product with discount on DB!! (we need todo new exceptions!!)
@@ -128,11 +137,11 @@ public class ProductDao {
         }
 
     }
+
     public List<Product> findProductsByDate(LocalDate date) throws SQLException {
 
-        if (date == null) {
-            //TODO: make new exception --> new functions ++
-        }
+        //TODO: make new exception --> new functions ++
+
         List<Product> dateProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_BY_DATE;
 
@@ -146,6 +155,7 @@ public class ProductDao {
             return dateProducts;
         }
     }
+
     public List<Product> findSoldOutProducts() throws SQLException {
 
         List<Product> soldOutProducts = new ArrayList<>();
@@ -160,6 +170,7 @@ public class ProductDao {
         }
         return soldOutProducts;
     }
+
     public List<Product> findProductByName(String name) throws SQLException {
 
         List<Product> productsName = new ArrayList<>();
@@ -176,6 +187,7 @@ public class ProductDao {
         }
         return productsName;
     }
+
     public List<Product> findByMaxPrice(BigDecimal maxPrice) throws SQLException {
 
         List<Product> priceProducts = new ArrayList<>();
@@ -192,25 +204,27 @@ public class ProductDao {
         }
         return priceProducts;
     }
+
     public List<Product> findPriceByRange(BigDecimal minPrice, BigDecimal maxPrice) throws SQLException {
 
         // TODO: exceptions
         List<Product> rangeProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_BY_PRICE_RANGE;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setBigDecimal(1, minPrice);
             stmt.setBigDecimal(2, maxPrice);
 
             ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
 
                 rangeProducts.add(mapResultSetToProduct(rs));
             }
         }
         return rangeProducts;
     }
+
     // TODO: comments ++
     // torna tudo mais flexível com o banco de dados
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
