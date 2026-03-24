@@ -1,5 +1,6 @@
 package com.pedrojvdv.jdbc.dao;
 
+import com.pedrojvdv.jdbc.config.ConnectionFactory;
 import com.pedrojvdv.jdbc.model.Category;
 import com.pedrojvdv.jdbc.model.Product;
 import com.pedrojvdv.jdbc.queries.ProductCrudQueries;
@@ -16,8 +17,8 @@ public class ProductDao {
     private final Connection connection;
 
 
-    public ProductDao(Connection connection) {
-        this.connection = connection;
+    public ProductDao() {
+        this.connection = ConnectionFactory.getConnection();
     }
 
     public void createProduct(Product product) throws SQLException {
@@ -226,7 +227,7 @@ public class ProductDao {
     }
 
     // TODO: comments ++
-    // torna tudo mais flexível com o banco de dados
+
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
 
@@ -262,12 +263,6 @@ public class ProductDao {
         }
         return product;
     }
-
-    /* verifica se existe um resultSet
-     *  Mapeia conforme as queries pré-estabelecidas
-     *  SqlException é evitado, uma vez que já executa as necessárias*/
-
-    //TODO: implementar comentários mais complexos a respeito disso e outras funções
 
     private boolean hasColumn(ResultSet rs, String columnName) {
         try {
