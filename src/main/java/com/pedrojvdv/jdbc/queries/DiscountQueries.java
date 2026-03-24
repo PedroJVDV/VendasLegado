@@ -9,7 +9,7 @@ public class DiscountQueries {
             UPDATE discount
             SET active = FALSE
             WHERE active = TRUE
-            AND end_date NOT NULL
+            AND end_date IS NOT NULL
             AND end_date < CURRENT_DATE
             """;
 
@@ -20,8 +20,8 @@ public class DiscountQueries {
             SELECT
                 p.name AS product_name,
                 p.price AS product_price,
-                p.price * (1 - d.percentage / 100) AS final_price
                 d.percentage,
+                p.price * (1 - d.percentage / 100) AS final_price
                 d.type,
                 d.start_date,
                 d.end_date,
@@ -104,10 +104,8 @@ public class DiscountQueries {
             FROM discount d
             LEFT JOIN products p
                 ON d.product_id = p.id
-            WHERE d.end_date NOT NULL
+            WHERE d.end_date IS NOT NULL
             AND d.end_date < CURRENT_DATE
             """;
-
-    //TODO: enum queries ??
 
 }
