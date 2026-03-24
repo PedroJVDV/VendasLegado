@@ -9,11 +9,8 @@ import java.util.regex.Pattern;
 
 public final class UserValidation {
 
-    // Aplica regra referente a digitação de email, emails "falsos" não serão aceitos!!
-    // Exemplos de emails não aceitos: Joao"##"@gmail.get, teste@.com, usuario@meudominio. e etc...
-
     private static final Pattern EMAIL_PATT = Pattern.compile(
-            "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$",
+            "^[A-Z 0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$",
             Pattern.CASE_INSENSITIVE
     );
 
@@ -23,7 +20,6 @@ public final class UserValidation {
     public static List<String> listValidate(User user) {
         List<String> errorsList = new ArrayList<>();
 
-        // aqui retorna a lista de erros, está armazenado todas as mensagens etc.
         if (user == null) {
             errorsList.add("Usuário não pode ser nulo!");
             return errorsList;
@@ -51,7 +47,6 @@ public final class UserValidation {
                 errorsList.add("Usuário deve possuir ao menos 16 anos.");
             }
 
-            // aqui eu criei uma idade exception apenas para retornar algo especifico
         } catch (AgeException e) {
             throw new RuntimeException(e);
         }
