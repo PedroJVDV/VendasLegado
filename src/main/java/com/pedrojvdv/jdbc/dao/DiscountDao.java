@@ -152,6 +152,23 @@ public class DiscountDao {
             return expiredDiscounts;
         }
     }
+
+    public List<Discount> findByType() throws SQLException {
+        List<Discount> typeList = new ArrayList<>();
+
+        String sql = DiscountQueries.FIND_BY_TYPE;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Discount discount = mapResultToDiscount(rs);
+                typeList.add(discount);
+            }
+            return typeList;
+        }
+    }
+    
     private Discount mapResultToDiscount(ResultSet rs) throws SQLException {
         Discount discount = new Discount();
 
