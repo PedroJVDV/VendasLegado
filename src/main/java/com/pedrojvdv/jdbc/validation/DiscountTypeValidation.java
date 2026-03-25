@@ -1,7 +1,6 @@
 package com.pedrojvdv.jdbc.validation;
 
 import com.pedrojvdv.jdbc.exception.DiscountValidationException;
-import com.pedrojvdv.jdbc.exception.ProductValidationException;
 import com.pedrojvdv.jdbc.model.Discount;
 
 
@@ -9,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class DiscountValidation {
+public class DiscountTypeValidation {
 
 
     public void validate(Discount discount, Integer stock) {
@@ -60,7 +59,6 @@ public class DiscountValidation {
             }
         }
 
-        // TODO: freight logic
     }
 
     private void validateScheduled(Discount discount, Integer stock) {
@@ -105,7 +103,6 @@ public class DiscountValidation {
         if (discountPercentage.compareTo(BigDecimal.valueOf(10)) < 0 || discountPercentage.compareTo(BigDecimal.valueOf(50)) > 0) {
             throw new DiscountValidationException("Desconto mínimo temporário é de 10%, e o desconto máximo temporário é de 50%!");
         }
-
         if (stock != 60) {
             throw new DiscountValidationException("Desconto temporario tem stock fixo em 60 unidades!");
         }
