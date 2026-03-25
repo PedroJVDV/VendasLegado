@@ -1,7 +1,7 @@
 package com.pedrojvdv.jdbc.validation;
 
+import com.pedrojvdv.jdbc.exception.UserException;
 import com.pedrojvdv.jdbc.model.User;
-import com.pedrojvdv.jdbc.exception.AgeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,47 +9,51 @@ import java.util.regex.Pattern;
 
 public final class UserValidation {
 
-    private static final Pattern EMAIL_PATT = Pattern.compile(
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[A-Z 0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$",
             Pattern.CASE_INSENSITIVE
     );
 
-    private UserValidation() {
+
+    // TODO: VALIDATE --> USER PASSWORD
+
+    public void validate(User user){
+        validateName(user.getName());
+        validateEmail(user.getEmail());
+        validateAge(user.getAge());
     }
 
-    public static List<String> listValidate(User user) {
-        List<String> errorsList = new ArrayList<>();
-
-        if (user == null) {
-            errorsList.add("Usuário não pode ser nulo!");
-            return errorsList;
+    public void validateId(Long id){
+        if (id == null || id < 0){
+            throw new UserException("ID não pode ser nulo!");
         }
+    }
 
-        String nome = user.getName();
-        if (nome == null || nome.trim().isEmpty()) {
-            errorsList.add("É obrigatório ter um nome!");
-        } else if (nome.trim().length() < 3) {
-            errorsList.add("Nome deve conter ao menos 3 caracteres");
+    private void validateName(String name){
+        if (name == null || name.trim().isEmpty()){
+            throw new UserException("Nome não pode ser vazio!");
         }
+        if (name.length() < 3){
+            throw new UserException("Nome deve conter ao menos 3 caracteres!");
+        }
+    }
 
-        String email = user.getEmail();
+    private void validateEmail(String email){
         if (email == null || email.trim().isEmpty()) {
-            errorsList.add("É obrigatório ter email");
-        } else if (!EMAIL_PATT.matcher(email).matches()) {
-            errorsList.add("Formato de email não aceito!");
+            throw new UserException("Email não pode ser vazio!");
         }
-
-        try {
-            int idade = user.getAge();
-            if (idade <= 0) {
-                errorsList.add("Idade inválida, digite uma válida.");
-            } else if (idade < 16) {
-                errorsList.add("Usuário deve possuir ao menos 16 anos.");
-            }
-
-        } catch (AgeException e) {
-            throw new RuntimeException(e);
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new UserException("Formato de email não aceito!");
         }
-        return errorsList;
     }
+
+    private void validateAge(Integer age){
+        if (age <= 0) {
+            throw new UserException("Idade inválida, digite uma válida!");
+        }
+        if (age < 16) {
+            throw new UserException("Usuário deve possuir ao menos 16 anos!");
+        }
+    }
+
 }
