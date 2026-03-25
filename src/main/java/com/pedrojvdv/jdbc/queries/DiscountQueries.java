@@ -108,4 +108,18 @@ public class DiscountQueries {
             AND d.end_date < CURRENT_DATE
             """;
 
+    public static final String FIND_BY_TYPE = """
+            SELECT
+                  p.name AS product_name,
+                  p.price AS product_price,
+                  p.price * (1 - d.percentage / 100) AS final_price
+                  d.percentage,
+                  d.duration_hours
+              FROM discount d
+              LEFT JOIN products p
+                  ON d.product_id = p.id
+              WHERE d.type IN ('FLASH_SALE', 'SCHEDULED', 'PERMANENT' , 'TEMPORARY')
+              AND d.active = TRUE
+              AND p.available = TRUE
+            """;
 }
