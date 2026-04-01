@@ -1,8 +1,9 @@
 package com.pedrojvdv.jdbc.dao;
 
+import com.pedrojvdv.jdbc.config.ConnectionFactory;
 import com.pedrojvdv.jdbc.model.User;
-import com.pedrojvdv.jdbc.queries.UserCrudQueries;
-import com.pedrojvdv.jdbc.queries.UserQueries;
+import com.pedrojvdv.jdbc.queries.user.UserCrudQueries;
+import com.pedrojvdv.jdbc.queries.user.UserQueries;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class UserDao{
 
     private final Connection connection;
 
-    public UserDao(Connection connection) {
-        this.connection = connection;
+    public UserDao() {
+        this.connection = ConnectionFactory.getConnection();
     }
 
     public void createUser(User user) throws SQLException {

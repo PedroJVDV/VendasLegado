@@ -1,10 +1,10 @@
 package com.pedrojvdv.jdbc.dao;
 
 import com.pedrojvdv.jdbc.config.ConnectionFactory;
-import com.pedrojvdv.jdbc.model.Category;
+import com.pedrojvdv.jdbc.model.enums.Category;
 import com.pedrojvdv.jdbc.model.Product;
-import com.pedrojvdv.jdbc.queries.ProductCrudQueries;
-import com.pedrojvdv.jdbc.queries.ProductQueries;
+import com.pedrojvdv.jdbc.queries.product.ProductCrudQueries;
+import com.pedrojvdv.jdbc.queries.product.ProductQueries;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -123,8 +123,6 @@ public class ProductDao {
 
     public List<Product> findProductWithDiscount() throws SQLException {
 
-        // TODO: exception when don't have product with discount on DB!! (we need todo new exceptions!!)
-
         List<Product> discountProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_DISCOUNT_PRODUCTS;
 
@@ -140,8 +138,6 @@ public class ProductDao {
     }
 
     public List<Product> findProductsByDate(LocalDate date) throws SQLException {
-
-        //TODO: make new exception --> new functions ++
 
         List<Product> dateProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_BY_DATE;
@@ -208,7 +204,6 @@ public class ProductDao {
 
     public List<Product> findPriceByRange(BigDecimal minPrice, BigDecimal maxPrice) throws SQLException {
 
-        // TODO: exceptions
         List<Product> rangeProducts = new ArrayList<>();
         String sql = ProductQueries.FIND_BY_PRICE_RANGE;
 
@@ -219,7 +214,6 @@ public class ProductDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-
                 rangeProducts.add(mapResultSetToProduct(rs));
             }
         }
