@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.order;
 
 public class OrderQueries {
 
@@ -7,7 +7,15 @@ public class OrderQueries {
             VALUES (?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """;
     public static final String FIND_BY_ID = """
-            SELECT * FROM orders WHERE id = ?
+            SELECT
+                o.id,
+                o.user_id,
+                o.total_price,
+                o.status,
+                o.created_at,
+                o.updated_at
+            FROM orders
+            WHERE id = ?
             """;
     public static final String UPDATE = """
             UPDATE orders

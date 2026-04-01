@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.sale;
 
 public class SalesQueries {
 
@@ -74,26 +74,18 @@ public class SalesQueries {
             FROM sales
             WHERE order_id = ?
             """;
-    public static final String FIND_BY_PRODUCT_ID = """
+    public static final String FIND_BY_ID = """
             SELECT
                 id,
-                order_id,
-                discount_id,
-                quantity,
-                total_price,
-                sale_date
-            FROM sales
-            WHERE product_id = ?
-            """;
-    public static final String FIND_BY_DISCOUNT_ID = """
-            SELECT
-                id,
-                order_id,
                 product_id,
+                discount_id,
+                order_id,
                 quantity,
                 total_price,
                 sale_date
             FROM sales
-            WHERE discount_id = ?
+            WHERE id = ?
             """;
+
+
 }

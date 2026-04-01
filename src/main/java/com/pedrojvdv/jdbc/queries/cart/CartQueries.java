@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.cart;
 
 public class CartQueries {
 
@@ -14,12 +14,14 @@ public class CartQueries {
             DELETE FROM cart
             WHERE user_id = ?
             """;
-    public static final String FIND_CART_ID = """
-            SELECT * FROM cart
-            WHERE id = ?
-            """;
     public static final String FIND_CART_USERID = """
-            SELECT * FROM cart
+            SELECT
+                id,
+                product_id,
+                user_id,
+                quantity,
+                added_at
+            FROM cart
             WHERE user_id = ?
             """;
     public static final String UPDATE_QUANTITY = """
