@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.product;
 
 public class ProductQueries {
 
@@ -20,7 +20,6 @@ public class ProductQueries {
                 AND d.active = TRUE
             WHERE p.id = ?
             """;
-
     public static final String FIND_ALL_PRODUCTS = """
             SELECT
                 p.id,
@@ -39,7 +38,6 @@ public class ProductQueries {
             WHERE p.available = TRUE
             ORDER BY p.name, p.price
             """;
-
     public static final String FIND_BY_CATEGORY = """
             SELECT
                 p.name,
@@ -56,7 +54,6 @@ public class ProductQueries {
             AND p.available = TRUE
             ORDER BY p.name
             """;
-
     public static final String FIND_DISCOUNT_PRODUCTS = """
             SELECT
                 p.name,
@@ -87,9 +84,6 @@ public class ProductQueries {
             AND p.available = TRUE
             ORDER BY p.created_at DESC, p.name ASC
             """;
-
-
-    // TODO: sales DB -- LOG
     public static final String FIND_SOLD_PRODUCTS = """
             SELECT
                 p.name,
@@ -104,7 +98,6 @@ public class ProductQueries {
             WHERE (p.stock = 0 OR p.stock IS NULL)
             ORDER BY p.name ASC
             """;
-
     public static final String FIND_BY_NAME = """
             SELECT
                p.name,
@@ -121,7 +114,6 @@ public class ProductQueries {
             WHERE LOWER(p.name) LIKE LOWER(?)
             ORDER BY p.name ASC
             """;
-
     public static final String FIND_BY_PRICE = """
             SELECT
                 p.name,
@@ -138,7 +130,6 @@ public class ProductQueries {
             AND p.available = TRUE
             ORDER BY p.price ASC
             """;
-
     public static final String FIND_BY_PRICE_RANGE = """
             SELECT
                 p.name,

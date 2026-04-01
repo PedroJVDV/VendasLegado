@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.discount;
 
 public class DiscountQueries {
 

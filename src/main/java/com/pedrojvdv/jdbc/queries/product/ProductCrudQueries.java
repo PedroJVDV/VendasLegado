@@ -1,4 +1,4 @@
-package com.pedrojvdv.jdbc.queries;
+package com.pedrojvdv.jdbc.queries.product;
 
 public class ProductCrudQueries {
 
@@ -6,7 +6,6 @@ public class ProductCrudQueries {
             INSERT INTO products(name, price, description, category, stock, available, created_at)
             VALUES(?,?,?,?,?,?, CURRENT_TIMESTAMP)
             """;
-
     public static final String UPDATE_PRODUCTS = """
             UPDATE products
             SET name = COALESCE(?,name),
@@ -17,15 +16,13 @@ public class ProductCrudQueries {
                 available = COALESCE(?, available)
             WHERE id = ?
             """;
-
     public static final String DELETE_PRODUCT = """
             DELETE FROM products
             WHERE id = ?
             """;
-
     public static final String SOFT_DELETE_PRODUCT = """
             UPDATE products
-            SET available = false
+            SET available = FALSE
             WHERE id = ?
             """;
 }
