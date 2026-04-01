@@ -1,5 +1,8 @@
 package com.pedrojvdv.jdbc.model;
 
+import com.pedrojvdv.jdbc.model.enums.Category;
+import com.pedrojvdv.jdbc.model.enums.DiscountType;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -22,11 +25,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, Integer stock, Boolean available) {
+    public Product(String name, BigDecimal price, Integer stock, Boolean available, String description, Category category) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.available = available;
+        this.description = description;
+        this.category = category;
     }
 
 

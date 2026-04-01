@@ -1,6 +1,4 @@
-package com.pedrojvdv.jdbc.model;
-
-import com.pedrojvdv.jdbc.queries.DiscountQueries;
+package com.pedrojvdv.jdbc.model.enums;
 
 public enum DiscountType {
     PERMANENT("PERMANENTE", null),

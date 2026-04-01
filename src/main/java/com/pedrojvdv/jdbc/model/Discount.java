@@ -1,5 +1,7 @@
 package com.pedrojvdv.jdbc.model;
 
+import com.pedrojvdv.jdbc.model.enums.DiscountType;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -23,11 +25,16 @@ public class Discount {
     public Discount() {
     }
 
-    public Discount(Long productId, BigDecimal percentage, DiscountType type) {
+    public Discount(Long productId, BigDecimal percentage, DiscountType type, Boolean active, LocalDate startDate, LocalDate endDate) {
         this.productId = productId;
         this.percentage = percentage;
         this.type = type;
+        this.active = active;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
+
+
 
 
     public Product getStock() {
@@ -161,4 +168,5 @@ public class Discount {
                 ", duration_hours=" + durationHours +
                 '}';
     }
+
 }
