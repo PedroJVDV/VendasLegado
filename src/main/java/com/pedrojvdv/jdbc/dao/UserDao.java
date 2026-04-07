@@ -22,8 +22,9 @@ public class UserDao{
 
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
-            stmt.setObject(3, user.getAge());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getEmail());
+            stmt.setObject(4, user.getAge());
             stmt.executeUpdate();
         }
     }
@@ -33,9 +34,10 @@ public class UserDao{
 
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setObject(1, user.getName());
-            stmt.setObject(2, user.getEmail());
-            stmt.setObject(3, user.getAge());
-            stmt.setLong(4, user.getId());
+            stmt.setString(2, user.getPassword());
+            stmt.setObject(3, user.getEmail());
+            stmt.setObject(4, user.getAge());
+            stmt.setLong(5, user.getId());
             stmt.executeUpdate();
         }
     }
@@ -49,8 +51,8 @@ public class UserDao{
         }
     }
 
-    public List<User> findUserByEmail(String email)throws SQLException{
-       return executeQuery(UserQueries.FIND_USER_BY_EMAIL, email);
+    public User findUserByEmail(String email)throws SQLException{
+       return (User) executeQuery(UserQueries.FIND_USER_BY_EMAIL, email);
     }
 
     public List<User> findUserById(Long id)throws SQLException{
@@ -72,7 +74,6 @@ public class UserDao{
             while(rs.next()){
                 User user = mapResultToUser(rs);
                 userList.add(user);
-
             }
             return userList;
         }
