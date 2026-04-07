@@ -1,15 +1,16 @@
 package com.pedrojvdv.jdbc.service;
 
 import com.pedrojvdv.jdbc.dao.UserDao;
+import com.pedrojvdv.jdbc.exception.AuthException;
 import com.pedrojvdv.jdbc.exception.UserException;
 import com.pedrojvdv.jdbc.model.User;
+import com.pedrojvdv.jdbc.util.PasswordEncoder;
 import com.pedrojvdv.jdbc.validation.UserValidation;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-
     private final UserDao userDao;
     private final UserValidation userValidation;
 
@@ -19,8 +20,16 @@ public class UserService {
     }
 
     public void createUser(User user) throws UserException, SQLException {
+        String encryptedPassword = PasswordEncoder.encode(user.getPassword());
+
+        user.setPassword(encryptedPassword);
         userValidation.validate(user);
         userDao.createUser(user);
+    }
+
+    public boolean authenticate(String email, String password)throws SQLException{
+        User user = userDao.findUserByEmail(email);
+        return PasswordEncoder.match(password, user.getPassword());
     }
 
     public void updateUser(User user) throws UserException, SQLException {
@@ -32,7 +41,7 @@ public class UserService {
         userDao.deleteUser(user);
     }
 
-    public List<User> findUserByEmail(String email) throws UserException, SQLException{
+    public User findUserByEmail(String email) throws UserException, SQLException{
         return userDao.findUserByEmail(email);
     }
 
