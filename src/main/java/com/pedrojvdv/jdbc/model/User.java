@@ -9,12 +9,22 @@ public class User {
     private Integer age;
     private String email;
     private String name;
+    private String password;
     private LocalDateTime createdAt;
 
-    public User(Long id, String email, String name) {
+    public User(Long id, String password, String email, String name) {
         this.id = id;
+        this.password = password;
         this.email = email;
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDateTime getCreatedAt() {
