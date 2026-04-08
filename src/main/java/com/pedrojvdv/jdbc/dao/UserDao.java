@@ -2,6 +2,7 @@ package com.pedrojvdv.jdbc.dao;
 
 import com.pedrojvdv.jdbc.config.ConnectionFactory;
 import com.pedrojvdv.jdbc.model.User;
+import com.pedrojvdv.jdbc.model.enums.UserRole;
 import com.pedrojvdv.jdbc.queries.user.UserCrudQueries;
 import com.pedrojvdv.jdbc.queries.user.UserQueries;
 
@@ -84,6 +85,8 @@ public class UserDao{
         user.setId(rs.getLong("id"));
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        user.setRole(UserRole.valueOf(rs.getString("role")));
         user.setAge(rs.getInt("age"));
         user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return user;
