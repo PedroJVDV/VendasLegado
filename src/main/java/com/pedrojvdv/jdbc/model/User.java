@@ -1,6 +1,7 @@
 package com.pedrojvdv.jdbc.model;
 
-import java.sql.Timestamp;
+import com.pedrojvdv.jdbc.model.enums.UserRole;
+
 import java.time.LocalDateTime;
 
 public class User {
@@ -10,6 +11,7 @@ public class User {
     private String email;
     private String name;
     private String password;
+    private UserRole role;
     private LocalDateTime createdAt;
 
     public User(Long id, String password, String email, String name) {
@@ -25,6 +27,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public LocalDateTime getCreatedAt() {
