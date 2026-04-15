@@ -1,35 +1,34 @@
 package com.pedrojvdv.jdbc.validation;
 
+import com.pedrojvdv.jdbc.exception.AuthException;
 import com.pedrojvdv.jdbc.exception.UserException;
 import com.pedrojvdv.jdbc.model.User;
+import com.pedrojvdv.jdbc.util.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public final class UserValidation {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Z 0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$",
-            Pattern.CASE_INSENSITIVE
+            "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$"
     );
-
-
-    // TODO: VALIDATE --> USER PASSWORD
 
     public void validate(User user){
         validateName(user.getName());
         validateEmail(user.getEmail());
-        validateAge(user.getAge());
+        validatePassword(user.getPassword());
     }
 
-    public void validateId(Long id){
-        if (id == null || id < 0){
-            throw new UserException("ID não pode ser nulo!");
+    public void validatePassword(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new UserException("Senha não pode ser vazia!");
+        }
+        if (password.length() < 6) {
+            throw new UserException("Senha deve conter ao menos 6 caracteres!");
         }
     }
 
-    private void validateName(String name){
+    public void validateName(String name){
         if (name == null || name.trim().isEmpty()){
             throw new UserException("Nome não pode ser vazio!");
         }
@@ -38,8 +37,8 @@ public final class UserValidation {
         }
     }
 
-    private void validateEmail(String email){
-        if (email == null || email.trim().isEmpty()) {
+    public void validateEmail(String email){
+        if (email == null || email.isEmpty()) {
             throw new UserException("Email não pode ser vazio!");
         }
         if (!EMAIL_PATTERN.matcher(email).matches()) {
