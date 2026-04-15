@@ -22,7 +22,7 @@ public class MainStart {
             SalesDao salesDao = new SalesDao();
             UserDao userDao = new UserDao();
 
-            MainMenu menu = new MainMenu(userDao,ordersDao, scanner);
+            MainMenu menu = new MainMenu(userDao, cartDao, discountDao, ordersDao, productDao, salesDao, scanner);
 
             menu.start();
             scanner.close();
@@ -30,6 +30,7 @@ public class MainStart {
 
         } catch (SQLException e) {
            System.out.println("Erro ao conectar com banco de dados");
+           e.printStackTrace();
         }
     }
 }
