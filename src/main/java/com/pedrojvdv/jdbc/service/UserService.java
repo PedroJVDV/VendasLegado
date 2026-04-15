@@ -14,16 +14,23 @@ public class UserService {
     private final UserDao userDao;
     private final UserValidation userValidation;
 
+
     public UserService() {
         this.userDao = new UserDao();
         this.userValidation = new UserValidation();
     }
 
-    public void createUser(User user) throws UserException, SQLException {
-        String encryptedPassword = PasswordEncoder.encode(user.getPassword());
+    public void createUser(String name, String email, String password) throws UserException, SQLException {
 
-        user.setPassword(encryptedPassword);
-        userValidation.validate(user);
+        userValidation.validateName(name);
+        userValidation.validateEmail(email);
+        userValidation.validatePassword(password);
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+
         userDao.createUser(user);
     }
 
