@@ -1,8 +1,10 @@
 package com.pedrojvdv.jdbc.view;
 
 import com.pedrojvdv.jdbc.dao.*;
+import com.pedrojvdv.jdbc.model.Cart;
 import com.pedrojvdv.jdbc.model.User;
 import com.pedrojvdv.jdbc.model.enums.UserRole;
+import com.pedrojvdv.jdbc.service.UserService;
 import com.pedrojvdv.jdbc.util.PasswordEncoder;
 import com.pedrojvdv.jdbc.validation.LoginValidation;
 import com.pedrojvdv.jdbc.validation.UserValidation;
@@ -12,14 +14,24 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private final LoginValidation loginValidation;
-    private OrdersDao ordersDao;
-    private UserDao userDao;
-    private Scanner scanner;
+    private  final LoginValidation loginValidation;
+    private final Scanner scanner;
+    private final UserDao userDao;
+    private final CartDao cartDao;
+    private final DiscountDao discountDao;
+    private final OrdersDao ordersDao;
+    private final ProductDao productDao;
+    private final SalesDao salesDao;
 
-    public MainMenu(UserDao userDao, OrdersDao ordersDao, Scanner scanner) {
+    UserService userService = new UserService();
+
+    public MainMenu(UserDao userDao, CartDao cartDao, DiscountDao discountDao, OrdersDao ordersDao, ProductDao productDao, SalesDao salesDao, Scanner scanner) {
         this.userDao = userDao;
+        this.cartDao = cartDao;
+        this.discountDao = discountDao;
         this.ordersDao = ordersDao;
+        this.productDao = productDao;
+        this.salesDao = salesDao;
         this.scanner = scanner;
         this.loginValidation = new LoginValidation();
     }
@@ -37,12 +49,21 @@ public class MainMenu {
 
             switch(choice){
                 case 1:
+                    loginMenu();
+                    break;
+                case 2:
+                    registerUser();
+                    break;
+                case 3:
+                    running = false;
+                    break;
             }
         }
     }
 
     private void loginMenu()throws SQLException{
         System.out.println(" -- LOGIN -- ");
+
         System.out.println("EMAIL: ");
         String email = scanner.nextLine();
 
@@ -61,6 +82,7 @@ public class MainMenu {
     }
 
     private void registerUser()throws SQLException{
+        UserValidation userValidation = new UserValidation();
         System.out.println(" -- REGISTRO -- ");
 
         System.out.println("NOME DE USUÁRIO: ");
@@ -71,15 +93,11 @@ public class MainMenu {
 
         System.out.println("SENHA: ");
         String password = scanner.nextLine();
-
         String encryptedPassword = PasswordEncoder.encode(password);
-        UserValidation userValidation = new UserValidation();
 
-        User newUser = new User();
-        userValidation.validate(newUser);
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        userService.createUser(name, email, encryptedPassword);
+
+        System.out.println("USUÁRIO CRIADO COM SUCESSO!");
     }
 
 }
