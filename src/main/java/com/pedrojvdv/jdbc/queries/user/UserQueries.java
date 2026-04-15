@@ -6,10 +6,12 @@ public class UserQueries {
             SELECT
                 u.id,
                 u.email,
+                u.password,
+                u.role,
                 u.name,
                 u.age,
                 u.created_at
-            FROM user u
+            FROM users u
             WHERE u.email = ?
             """;
     public static final String FIND_USER_BY_ID = """
@@ -17,9 +19,10 @@ public class UserQueries {
                 u.id,
                 u.name,
                 u.email,
+                u.password,
                 u.age,
                 u.created_at
-            FROM user u
+            FROM users u
             WHERE u.id = ?
             """;
     public static final String FIND_USER_BY_USERNAME = """
@@ -28,8 +31,9 @@ public class UserQueries {
                 u.name,
                 u.age,
                 u.email,
+                u.password,
                 u.created_at
-            FROM user u
+            FROM users u
             WHERE u.name = ?
             """;
 }
