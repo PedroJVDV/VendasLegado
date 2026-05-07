@@ -16,7 +16,6 @@ public class ProductDao {
 
     private final Connection connection;
 
-
     public ProductDao() {
         this.connection = ConnectionFactory.getConnection();
     }
@@ -50,20 +49,20 @@ public class ProductDao {
         }
     }
 
-    public void deleteProduct(Product product) throws SQLException {
+    public void deleteProduct(Long id) throws SQLException {
         String sql = ProductCrudQueries.DELETE_PRODUCT;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, product.getId());
+            stmt.setLong(1, id);
             stmt.executeUpdate();
         }
     }
 
-    public void softDeleteProduct(Product product) throws SQLException {
+    public void softDeleteProduct(Long id) throws SQLException {
         String sql = ProductCrudQueries.SOFT_DELETE_PRODUCT;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, product.getId());
+            stmt.setLong(1,id);
             stmt.executeUpdate();
         }
     }
@@ -134,7 +133,6 @@ public class ProductDao {
             }
             return discountProducts;
         }
-
     }
 
     public List<Product> findProductsByDate(LocalDate date) throws SQLException {
@@ -220,8 +218,6 @@ public class ProductDao {
         return rangeProducts;
     }
 
-    // TODO: comments ++
-
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
 
@@ -261,9 +257,9 @@ public class ProductDao {
     private boolean hasColumn(ResultSet rs, String columnName) {
         try {
             rs.findColumn(columnName);
-            return true; // achou a coluna
+            return true;
         } catch (SQLException e) {
-            return false; // não achou a coluna
+            return false;
         }
     }
 
