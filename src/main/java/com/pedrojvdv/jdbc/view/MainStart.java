@@ -14,15 +14,7 @@ public class MainStart {
             Connection connection = ConnectionFactory.getConnection();
 
             Scanner scanner = new Scanner(System.in);
-
-            CartDao cartDao = new CartDao();
-            DiscountDao discountDao = new DiscountDao();
-            OrdersDao ordersDao = new OrdersDao();
-            ProductDao productDao =  new ProductDao();
-            SalesDao salesDao = new SalesDao();
-            UserDao userDao = new UserDao();
-
-            MainMenu menu = new MainMenu(userDao, cartDao, discountDao, ordersDao, productDao, salesDao, scanner);
+            MainMenu menu = new MainMenu(scanner);
 
             menu.start();
             scanner.close();

@@ -14,32 +14,25 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private  final LoginValidation loginValidation;
-    private final Scanner scanner;
-    private final UserDao userDao;
-    private final CartDao cartDao;
-    private final DiscountDao discountDao;
-    private final OrdersDao ordersDao;
-    private final ProductDao productDao;
-    private final SalesDao salesDao;
+    private LoginValidation loginValidation;
+    private UserValidation userValidation;
+    private Scanner scanner;
 
     UserService userService = new UserService();
 
-    public MainMenu(UserDao userDao, CartDao cartDao, DiscountDao discountDao, OrdersDao ordersDao, ProductDao productDao, SalesDao salesDao, Scanner scanner) {
-        this.userDao = userDao;
-        this.cartDao = cartDao;
-        this.discountDao = discountDao;
-        this.ordersDao = ordersDao;
-        this.productDao = productDao;
-        this.salesDao = salesDao;
+    public MainMenu(Scanner scanner) {
         this.scanner = scanner;
         this.loginValidation = new LoginValidation();
+        this.userValidation = new UserValidation();
     }
 
-    public void start()throws SQLException {
+    public MainMenu() {
+    }
+
+    public void start() throws SQLException {
         boolean running = true;
 
-        while(running){
+        while (running) {
             System.out.println("\n --- E-COMMERCE 1.0 ---  ");
             System.out.println("1 - Login");
             System.out.println("2 - Registrar");
@@ -47,7 +40,7 @@ public class MainMenu {
 
             int choice = Integer.parseInt(scanner.nextLine());
 
-            switch(choice){
+            switch (choice) {
                 case 1:
                     loginMenu();
                     break;
@@ -61,7 +54,7 @@ public class MainMenu {
         }
     }
 
-    private void loginMenu()throws SQLException{
+    private void loginMenu() throws SQLException {
         System.out.println(" -- LOGIN -- ");
 
         System.out.println("EMAIL: ");
@@ -72,17 +65,15 @@ public class MainMenu {
 
         User user = loginValidation.authenticate(email, password);
 
-        if (user.getRole() == UserRole.ADMIN ){
+        if (user.getRole() == UserRole.ADMIN) {
             AdminMenu adminMenu = new AdminMenu();
-            // TODO: adminMenu.show(user);
-        }else{
-            UserMenu userMenu = new UserMenu();
-            // TODO: userMenu.show(user);
+        } else {
+            UserMenu userMenu = new UserMenu(user, scanner);
+            userMenu.show();
         }
     }
 
-    private void registerUser()throws SQLException{
-        UserValidation userValidation = new UserValidation();
+    private void registerUser() throws SQLException {
         System.out.println(" -- REGISTRO -- ");
 
         System.out.println("NOME DE USUÁRIO: ");
@@ -93,6 +84,10 @@ public class MainMenu {
 
         System.out.println("SENHA: ");
         String password = scanner.nextLine();
+
+        userValidation.validateName(name);
+        userValidation.validateEmail(email);
+        userValidation.validatePassword(password);
         String encryptedPassword = PasswordEncoder.encode(password);
 
         userService.createUser(name, email, encryptedPassword);
