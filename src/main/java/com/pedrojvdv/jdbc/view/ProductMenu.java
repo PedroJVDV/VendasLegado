@@ -28,53 +28,35 @@ public class ProductMenu {
 
         while (running) {
 
-            String input = scanner.nextLine().trim();
-            if (input.equals("1")) {
-                running = false;
-                break;
-            }
-
+            System.out.println(" |--- MENU DE PRODUTOS ---| ");
+            System.out.println();
             System.out.println(" 1 - PRODUTOS COM DESCONTO ");
             System.out.println(" 2 - PESQUISE SEU PRODUTO ");
             System.out.println(" 3 - FILTRAR POR PREÇO ");
             System.out.println(" 4 - PROCURAR POR CATEGORIA ");
+            System.out.println(" 5 - CATALOGO GERAL DE PRODUTOS");
+            System.out.println(" 9 - SAIR");
 
             int choice = Integer.parseInt(scanner.nextLine());
-
             switch (choice) {
                 case 1:
                     productDao.findProductWithDiscount();
                     break;
                 case 2:
-                    System.out.println("Digite o nome do produto: ");
-                    String productName = scanner.nextLine().trim();
-                    productService.getProductByName(productName);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchProduct();
                     break;
                 case 3:
-                    System.out.println("Preço minimo: ");
-                    BigDecimal minPrice = new BigDecimal(scanner.nextLine());
-                    System.out.println("Preço máximo: ");
-                    BigDecimal maxPrice = new BigDecimal(scanner.nextLine());
-                    productService.getPriceByRange(minPrice, maxPrice);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByPriceRange();
                     break;
                 case 4:
-                    System.out.println("Categorias disponíveis:");
-                    for (Category c : Category.values()) {
-                        System.out.println("- " + c.name());
-                    }
-                    System.out.println(" Digite a categoria desejada: ");
-                    Category category = Category.valueOf(input.toUpperCase());
-                    System.out.println();
-                    System.out.println(" | CATALOGO DE PRODUTOS | ");
-                    productDao.findProductByCategory(category);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByCategory();
                     break;
-
+                case 5:
+                    showCatalogMenu();
+                    break;
+                case 9:
+                    running = false;
+                    break;
                 default:
                     System.out.println("Opção Inválida, tente novamente!");
             }
@@ -110,6 +92,71 @@ public class ProductMenu {
         }
     }
 
+    private void searchProduct() throws SQLException {
+        System.out.println("Digite o nome do produto: ");
+        String productName = scanner.nextLine().trim();
+        productService.getProductByName(productName);
+        if (productName.equals("9")) {
+            return;
+        }
+        System.out.println();
+        System.out.println("9 - VOLTAR");
+    }
+
+    private void searchByCategory() throws SQLException {
+        boolean running = true;
+
+        while (running) {
+            System.out.println("Categorias disponíveis:");
+            for (Category c : Category.values()) {
+                System.out.println("- " + c.name());
+            }
+            System.out.println(" Digite a categoria desejada: ");
+            String insertC = scanner.nextLine().trim().toUpperCase();
+            if (insertC.equals("9")) {
+                return;
+            }
+            Category category = Category.valueOf(insertC);
+
+            System.out.println();
+            System.out.println(" --> | 9 - VOLTAR | ");
+            System.out.println("----------------------");
+            System.out.println(" | CATALOGO DE PRODUTOS | ");
+
+            productDao.findProductByCategory(category);
+            System.out.println();
+        }
+    }
+
+    private void searchByPriceRange() throws SQLException {
+        boolean running = true;
+        while (running) {
+            System.out.println("--> 9 - VOLTAR  ");
+            System.out.println();
+            System.out.println(" | FILTRAR POR PREÇO | ");
+
+            System.out.println("Preço minimo: ");
+            String minInput = scanner.nextLine().trim();
+
+            if (minInput.equals("9")) {
+                return;
+            }
+
+            System.out.println("Preço máximo: ");
+            String maxInput = scanner.nextLine().trim();
+
+            if (maxInput.equals("9")) {
+                return;
+            }
+
+            BigDecimal minPrice = new BigDecimal(minInput);
+            BigDecimal maxPrice = new BigDecimal(maxInput);
+
+            productService.getPriceByRange(minPrice, maxPrice);
+            System.out.println();
+        }
+    }
+
     private void showCatalogMenu() throws SQLException {
         boolean running = true;
 
@@ -117,10 +164,10 @@ public class ProductMenu {
             System.out.println("CATALOGO");
             productDao.findAllProducts();
 
-            System.out.println("1 - VOLTAR");
+            System.out.println("9 - VOLTAR");
             int choice = Integer.parseInt(scanner.nextLine());
-            if (choice == 1) {
-                running = false;
+            if (choice == 9) {
+                return;
             }
         }
     }
@@ -128,12 +175,6 @@ public class ProductMenu {
     private void showSearchMenu() throws SQLException {
         boolean running = true;
         while (running) {
-            String input = scanner.nextLine().trim();
-            if (input.equals("1")) {
-                running = false;
-                break;
-            }
-
             System.out.println(" -| BUSCA COMPLETA DE PRODUTOS |- ");
             System.out.println();
             System.out.println(" 2 - CONSULTAR PRODUTOS POR CATEOGORIA ");
@@ -148,77 +189,92 @@ public class ProductMenu {
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
-                case 1:
+                case 9:
                     running = false;
                     break;
                 case 2:
-                    System.out.println("Categorias disponíveis:");
-                    for (Category c : Category.values()) {
-                        System.out.println("- " + c.name());
-                    }
-                    System.out.println(" Digite a categoria desejada: ");
-                    Category category = Category.valueOf(input.toUpperCase());
-                    System.out.println();
-                    System.out.println(" | CATALOGO DE PRODUTOS | ");
-                    productDao.findProductByCategory(category);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByCategory();
                     break;
                 case 3:
-                    System.out.println(" | PRODUTOS EM DESCONTO | ");
-                    productDao.findProductWithDiscount();
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByDiscount();
                     break;
                 case 4:
-                    try {
-                        System.out.println(" | PRODUTOS DISPONIVEIS COM SUA DATA DE CRIAÇÃO INFORMADA | ");
-                        System.out.println();
-                        System.out.println("INFORME A DATA DESEJADA - (ano-MES-dia): ");
-                        String insert = scanner.nextLine();
-                        LocalDate date = LocalDate.parse(insert);
-                        productDao.findProductsByDate(date);
-                        System.out.println();
-                        System.out.println("1 - VOLTAR");
-                    } catch (DateTimeParseException e) {
-                        System.out.println("DATA INVÁLIDA. Use o formato: yyyy-MM-dd. ");
-                    }
+                    searchByDate();
+                    break;
                 case 5:
-                    System.out.println(" | PRODUTOS ESGOTADOS |");
-                    productDao.findSoldOutProducts();
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchBySoldOut();
                     break;
                 case 6:
-                    System.out.println("Digite o nome do produto: ");
-                    String productName = scanner.nextLine().trim();
-                    productDao.findProductByName(productName);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
-                    break;
+                    searchProduct();
                 case 7:
-                    System.out.println(" - FILTRO DE PREÇO MÁXIMO - ");
-                    System.out.println();
-                    System.out.println("Preço máximo: ");
-                    BigDecimal maxPrice = new BigDecimal(scanner.nextLine());
-                    productService.getByMaxPrice(maxPrice);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByMaxPrice();
                     break;
                 case 8:
-                    System.out.println(" - FILTRO DE PREÇOS - ");
-                    System.out.println();
-                    System.out.println("Preço mínimo: ");
-                    BigDecimal minPrice = new BigDecimal(scanner.nextLine());
-                    System.out.println("Preço máximo: ");
-                    BigDecimal maxPrice2 = new BigDecimal(scanner.nextLine());
-                    productDao.findPriceByRange(minPrice, maxPrice2);
-                    System.out.println();
-                    System.out.println("1 - VOLTAR");
+                    searchByPriceRange();
                     break;
-
             }
         }
+    }
+
+    private void searchByMaxPrice() throws SQLException {
+        System.out.println(" - FILTRO DE PREÇO MÁXIMO - ");
+        System.out.println();
+        System.out.println("Preço máximo: ");
+
+        BigDecimal maxPrice = new BigDecimal(scanner.nextLine());
+        if (maxPrice.equals("9")) {
+            return;
+        }
+
+        productService.getByMaxPrice(maxPrice);
+        System.out.println();
+        System.out.println("9 - VOLTAR");
+    }
+
+    private void searchBySoldOut() throws SQLException {
+        System.out.println(" | PRODUTOS ESGOTADOS |");
+        productDao.findSoldOutProducts();
+
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 9) {
+            return;
+        }
+
+        System.out.println();
+        System.out.println("9 - VOLTAR");
+    }
+
+    private void searchByDate() throws SQLException {
+        try {
+            System.out.println(" | PRODUTOS DISPONIVEIS COM SUA DATA DE CRIAÇÃO INFORMADA | ");
+            System.out.println();
+            System.out.println("INFORME A DATA DESEJADA - (ano-MES-dia): ");
+
+            String insert = scanner.nextLine();
+            if (insert.equals("9")) {
+                return;
+            }
+            LocalDate date = LocalDate.parse(insert);
+            productDao.findProductsByDate(date);
+
+            System.out.println();
+            System.out.println("9 - VOLTAR");
+        } catch (DateTimeParseException e) {
+            System.out.println("DATA INVÁLIDA. Use o formato: yyyy-MM-dd. ");
+        }
+    }
+
+    private void searchByDiscount() throws SQLException {
+        System.out.println(" | PRODUTOS EM DESCONTO | ");
+        productDao.findProductWithDiscount();
+
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 9) {
+            return;
+        }
+
+        System.out.println();
+        System.out.println("9 - VOLTAR");
     }
 
     private void showManageMenu() throws SQLException {
@@ -232,12 +288,13 @@ public class ProductMenu {
             System.out.println(" 3 - ATUALIZAR PRODUTO");
             System.out.println(" 4 - DELETAR PRODUTO COMPLETAMENTE");
             System.out.println(" 5 - DELETAR PRODUTO DO SOFTWARE");
+            System.out.println(" 9 - SAIR" );
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
                     System.out.println("DIGITE O NUMERO DE REGISTRO DO PRODUTO -> |ID|");
-                    Long id = scanner.nextLong();
+                    Long id = Long.parseLong(scanner.nextLine());
                     productService.getById(id);
                     break;
                 case 2:
@@ -248,34 +305,35 @@ public class ProductMenu {
                     break;
                 case 4:
                     System.out.print("ID do produto que deseja deletar PERMANENTEMENTE: ");
-                    Long idDelete = scanner.nextLong();
-
+                    Long idDelete = Long.parseLong(scanner.nextLine());
                     productService.deleteProduct(idDelete);
                     break;
                 case 5:
                     System.out.print("ID do produto que deseja deletar do SOFTWARE ");
-                    Long idSoftDelete = scanner.nextLong();
-
+                    Long idSoftDelete = Long.parseLong(scanner.nextLine());
                     productService.softDeleteProduct(idSoftDelete);
+                    break;
+                case 9:
+                    running = false;
                     break;
             }
         }
     }
 
-    private void createProduct()throws SQLException{
+    private void createProduct() throws SQLException {
         Product product = buildProduct();
         productService.createProduct(product);
     }
 
-    private void updateProduct()throws SQLException{
+    private void updateProduct() throws SQLException {
         System.out.println("Digite o registro do produto que deseja atualizar -> |ID|");
-        long id = scanner.nextLong();
+        long id = Long.parseLong(scanner.nextLine());
         Product product = buildProduct();
         product.setId(id);
         productService.updateProduct(product);
     }
 
-    private Product buildProduct(){
+    private Product buildProduct() {
         String name = readName();
         String description = readDescription();
         Category category = readCategory();
