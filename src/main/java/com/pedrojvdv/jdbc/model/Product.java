@@ -25,6 +25,16 @@ public class Product {
     public Product() {
     }
 
+    public Product(Long id, String name, BigDecimal price, Integer stock, Boolean available, String description, Category category) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.available = available;
+        this.description = description;
+        this.category = category;
+    }
+
     public Product(String name, BigDecimal price, Integer stock, Boolean available, String description, Category category) {
         this.name = name;
         this.price = price;
@@ -34,6 +44,43 @@ public class Product {
         this.category = category;
     }
 
+    public String toCategoryString() {
+        return "==============================\n" +
+                "Nome: " + name + "\n" +
+                "------------------------------\n" +
+                "Preço: " + price + "\n" +
+                "Estoque: " + stock + "\n" +
+                "Disponível: " + available + "\n" +
+                "Categoria: " + category + "\n" +
+                "Descrição: " + description + "\n" +
+                "==============================";
+    }
+
+    public String toCatalogString() {
+        return "==============================\n" +
+                "Nome: " + name + "\n" +
+                "------------------------------\n" +
+                "Preço: " + finalPrice + "\n" +
+                "Desconto: " + discountPercentage + "\n" +
+                "Estoque: " + stock + "\n" +
+                "Categoria: " + category + "\n" +
+                "Descrição: " + description + "\n" +
+                "==============================";
+    }
+
+    public String toAdminString() {
+        return "==============================\n" +
+                "ID: " + id + "\n" +
+                "Nome: " + name + "\n" +
+                "------------------------------\n" +
+                "Preço: " + finalPrice + "\n" +
+                "Desconto: " + discountPercentage + "\n" +
+                "Estoque: " + stock + "\n" +
+                "Disponível: " + available + "\n" +
+                "Categoria: " + category + "\n" +
+                "Descrição: " + description + "\n" +
+                "==============================";
+    }
 
     public Discount getDiscount() {
         return discount;
@@ -51,44 +98,85 @@ public class Product {
         this.discountType = discountType;
     }
 
-    public Long getId() {return id;}
+    public Long getId() {
+        return id;
+    }
 
-    public LocalDateTime getCreatedAt() {return createdAt;}
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-    public Boolean getAvailable() {return available;}
+    public Boolean getAvailable() {
+        return available;
+    }
 
-    public Integer getStock() {return stock;}
+    public Integer getStock() {
+        return stock;
+    }
 
-    public Category getCategory() {return category;}
+    public Category getCategory() {
+        return category;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
-    public BigDecimal getPrice() {return price;}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public BigDecimal getDiscountPercentage() {return discountPercentage;}
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
+    }
 
-    public BigDecimal getFinalPrice() {return finalPrice;}
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
 
 
-    public void setId(Long id) {this.id = id;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-    public void setAvailable(Boolean available) {this.available = available;}
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 
-    public void setStock(Integer stock) {this.stock = stock; this.available = stock >= 1;}
+    public void setStock(Integer stock) {
+        this.stock = stock;
+        this.available = stock >= 1;
+    }
 
-    public void setCategory(Category category) {this.category = category;}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-    public void setDescription(String description) {this.description = description;}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public void setPrice(BigDecimal price) {this.price = price;}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setDiscountPercentage(BigDecimal discountPercentage) {this.discountPercentage = discountPercentage;}
+    public void setDiscountPercentage(BigDecimal discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
 
-    public void setFinalPrice(BigDecimal finalPrice) {this.finalPrice = finalPrice;}
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
 }
