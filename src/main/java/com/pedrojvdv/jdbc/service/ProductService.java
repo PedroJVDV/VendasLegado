@@ -7,55 +7,60 @@ import com.pedrojvdv.jdbc.validation.ProductValidation;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductService {
 
     private final ProductDao productDao;
     private final ProductValidation productValidation;
 
-    public ProductService(){
+    public ProductService() {
         this.productDao = new ProductDao();
         this.productValidation = new ProductValidation();
     }
 
-    public void createProduct(Product product) throws ProductValidationException, SQLException{
+    public void createProduct(Product product) throws ProductValidationException, SQLException {
         productValidation.validate(product);
         productDao.createProduct(product);
     }
 
-    public void updateProduct(Product product) throws ProductValidationException, SQLException{
+    public void updateProduct(Product product) throws ProductValidationException, SQLException {
         productValidation.validate(product);
         productDao.updateProducts(product);
     }
 
-    public void deleteProduct(Long id)throws ProductValidationException, SQLException{
+    public void deleteProduct(Long id) throws ProductValidationException, SQLException {
         productValidation.validateId(id);
         productDao.deleteProduct(id);
     }
 
-    public void softDeleteProduct(Long id)throws ProductValidationException, SQLException{
+    public void softDeleteProduct(Long id) throws ProductValidationException, SQLException {
         productValidation.validateId(id);
         productDao.softDeleteProduct(id);
     }
 
-    public void getById(Long id)throws ProductValidationException, SQLException{
+    public void getById(Long id) throws ProductValidationException, SQLException {
         productValidation.validateId(id);
         productDao.findById(id);
     }
 
-    public void getProductByName(String name)throws ProductValidationException, SQLException{
+    public List<Product> getProductByName(String name) throws ProductValidationException, SQLException {
         productValidation.validateName(name);
-        productDao.findProductByName(name);
+        List<Product> products = productDao.findProductByName(name);
+        return products != null ? products : new ArrayList<>();
     }
 
-    public void getByMaxPrice(BigDecimal maxPrice)throws ProductValidationException, SQLException{
+    public List<Product> getByMaxPrice(BigDecimal maxPrice) throws ProductValidationException, SQLException {
         productValidation.validateMaxPrice(maxPrice);
-        productDao.findByMaxPrice(maxPrice);
+        List<Product> products = productDao.findByMaxPrice(maxPrice);
+        return products !=null ? products : new ArrayList<>();
     }
 
-    public void getPriceByRange(BigDecimal minPrice, BigDecimal maxPrice)throws ProductValidationException, SQLException{
+    public List<Product> getPriceByRange(BigDecimal minPrice, BigDecimal maxPrice) throws ProductValidationException, SQLException {
         productValidation.validateByRange(minPrice, maxPrice);
-        productDao.findPriceByRange(minPrice, maxPrice);
+        List<Product> products = productDao.findPriceByRange(minPrice, maxPrice);
+        return products != null ? products : new ArrayList<>();
     }
 
 }
