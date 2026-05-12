@@ -40,11 +40,13 @@ public class ProductQueries {
             """;
     public static final String FIND_BY_CATEGORY = """
             SELECT
-                p.name,
-                p.price,
-                p.category,
-                p.description,
-                p.stock,
+                 p.id,
+                 p.name,
+                 p.price,
+                 p.description,
+                 p.category,
+                 p.available,
+                 p.stock,
                 COALESCE(d.percentage, 0) AS discount_percentage,
                 p.price * (1 - COALESCE(d.percentage, 0) / 100 ) AS final_price
             FROM products p
@@ -56,9 +58,13 @@ public class ProductQueries {
             """;
     public static final String FIND_DISCOUNT_PRODUCTS = """
             SELECT
-                p.name,
-                p.price,
-                p.available,
+                 p.id,
+                 p.name,
+                 p.price,
+                 p.description,
+                 p.category,
+                 p.available,
+                 p.stock,
                 d.percentage AS discount_percentage,
                 p.price * ( 1 - d.percentage / 100 ) AS final_price
             FROM products p
@@ -70,8 +76,11 @@ public class ProductQueries {
             """;
     public static final String FIND_BY_DATE = """
             SELECT
+                 p.id,
                  p.name,
                  p.price,
+                 p.description,
+                 p.category,
                  p.available,
                  p.stock,
                  COALESCE(d.percentage, 0) AS discount_percentage,
@@ -86,9 +95,13 @@ public class ProductQueries {
             """;
     public static final String FIND_SOLD_PRODUCTS = """
             SELECT
-                p.name,
-                p.price,
-                p.stock,
+                 p.id,
+                 p.name,
+                 p.price,
+                 p.description,
+                 p.category,
+                 p.available,
+                 p.stock,
                 COALESCE(d.percentage, 0) AS discount_percentage,
                 p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
             FROM products p
@@ -100,8 +113,10 @@ public class ProductQueries {
             """;
     public static final String FIND_BY_NAME = """
             SELECT
+                p.id,
                p.name,
                p.price,
+               p.description,
                p.category,
                p.available,
                p.stock,
@@ -116,8 +131,10 @@ public class ProductQueries {
             """;
     public static final String FIND_BY_PRICE = """
             SELECT
+                p.id,
                 p.name,
                 p.price,
+                p.description,
                 p.available,
                 p.category,
                 p.stock,
@@ -132,10 +149,13 @@ public class ProductQueries {
             """;
     public static final String FIND_BY_PRICE_RANGE = """
             SELECT
-                p.name,
-                p.price,
-                p.available,
-                p.stock,
+                 p.id,
+                 p.name,
+                 p.price,
+                 p.description,
+                 p.category,
+                 p.available,
+                 p.stock,
                 COALESCE(d.percentage, 0) AS discount_percentage,
                 p.price*(1 - COALESCE(d.percentage, 0 ) / 100) AS final_price
             FROM products p
