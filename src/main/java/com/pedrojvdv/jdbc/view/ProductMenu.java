@@ -71,35 +71,6 @@ public class ProductMenu {
         }
     }
 
-    public void adminProductMenu() throws SQLException {
-        boolean running = true;
-
-        while (running) {
-            System.out.println("1 - CATALOGO DE PRODUTOS");
-            System.out.println("2 - BUSCAR PRODUTOS");
-            System.out.println("3 - GERENCIAR PRODUTOS");
-            System.out.println("4 - VOLTAR");
-            int choice = Integer.parseInt(scanner.nextLine());
-
-            switch (choice) {
-                case 1:
-                    showCatalogMenu();
-                    break;
-                case 2:
-                    showAdminSearchMenu();
-                    break;
-                case 3:
-                    showManageMenu();
-                    break;
-                case 4:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Opção Inválida, tente novamente!");
-            }
-        }
-    }
-
     private void searchProduct() throws SQLException {
         System.out.println("Digite o nome do produto: ");
         String productName = scanner.nextLine().trim();
@@ -180,7 +151,7 @@ public class ProductMenu {
         }
     }
 
-    private void showCatalogMenu() throws SQLException {
+    protected void showCatalogMenu() throws SQLException {
         while (true) {
             System.out.println("CATALOGO");
             List<Product> products = productDao.findAllProducts();
@@ -197,7 +168,7 @@ public class ProductMenu {
         }
     }
 
-    private void showAdminSearchMenu() throws SQLException {
+    protected void showAdminSearchMenu() throws SQLException {
         boolean running = true;
         while (running) {
             System.out.println(" -| BUSCA COMPLETA DE PRODUTOS |- ");
@@ -323,7 +294,7 @@ public class ProductMenu {
         System.out.println("9 - VOLTAR");
     }
 
-    private void showManageMenu() throws SQLException {
+    protected void showManageMenu() throws SQLException {
         boolean running = true;
 
         while (running) {
