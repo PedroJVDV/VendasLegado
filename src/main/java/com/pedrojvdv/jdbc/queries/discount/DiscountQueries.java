@@ -21,7 +21,7 @@ public class DiscountQueries {
                 p.name AS product_name,
                 p.price AS product_price,
                 d.percentage,
-                p.price * (1 - d.percentage / 100) AS final_price
+                p.price * (1 - d.percentage / 100) AS final_price,
                 d.type,
                 d.start_date,
                 d.end_date,
@@ -37,7 +37,7 @@ public class DiscountQueries {
             SELECT
                 p.name AS product_name,
                 p.price AS product_price,
-                p.price * (1 - d.percentage / 100) AS final_price
+                p.price * (1 - d.percentage / 100) AS final_price,
                 d.percentage,
                 d.type,
                 d.start_date,
@@ -57,7 +57,7 @@ public class DiscountQueries {
             SELECT
                 p.name AS product_name,
                 p.price AS product_price,
-                p.price * (1 - d.percentage / 100) AS final_price
+                p.price * (1 - d.percentage / 100) AS final_price,
                 d.percentage,
                 d.duration_hours
             FROM discount d
@@ -79,7 +79,7 @@ public class DiscountQueries {
                 d.active,
                 d.created_at,
                 p.name AS product_name,
-                p.price AS product_price
+                p.price AS product_price,
                 p.price * (1 - d.percentage / 100) AS final_price
             FROM discount d
             LEFT JOIN products p
@@ -112,7 +112,7 @@ public class DiscountQueries {
             SELECT
                   p.name AS product_name,
                   p.price AS product_price,
-                  p.price * (1 - d.percentage / 100) AS final_price
+                  p.price * (1 - d.percentage / 100) AS final_price,
                   d.percentage,
                   d.duration_hours
               FROM discount d
