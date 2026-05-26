@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class AdminMenu {
 
+    private final DiscountMenu discountMenu;
     private final ProductMenu productMenu;
     private final Scanner scanner;
     private final User user;
@@ -14,13 +15,14 @@ public class AdminMenu {
     public AdminMenu(User user, Scanner scanner) {
         this.user = user;
         this.scanner = scanner;
-        this.productMenu = new ProductMenu(user,scanner);
+        this.discountMenu = new DiscountMenu(user, scanner);
+        this.productMenu = new ProductMenu(user, scanner);
     }
 
-    public void showAdminMenu()throws SQLException{
+    public void showAdminMenu() throws SQLException {
         boolean running = true;
 
-        while(running){
+        while (running) {
             System.out.println(" || SISTEMA DE ADMINISTRADOR ||");
             System.out.println("");
 
@@ -28,13 +30,40 @@ public class AdminMenu {
             System.out.println("2 - ADMINISTRAÇÃO DE DESCONTOS");
 
             int choice = Integer.parseInt(scanner.nextLine());
-            ProductMenu productMenu = new ProductMenu(user, scanner);
 
-            switch (choice){
+            switch (choice) {
                 case 1:
-                   adminProductMenu();
-                   break;
+                    adminProductMenu();
+                    break;
+                case 2:
+                    adminDiscountMenu();
+                    break;
                 case 7:
+                    running = false;
+                    break;
+            }
+        }
+    }
+
+    private void adminDiscountMenu() throws SQLException {
+        boolean running = true;
+
+        while (running) {
+
+            System.out.println("1 - BUSCAR DESCONTOS ");
+            System.out.println("2 - GERENCIAR PRODUTOS ");
+            System.out.println("3 - VOLTAR");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    discountMenu.searchMenuAdmin();
+                    break;
+                case 2:
+                    discountMenu.crudAdminMenu();
+                    break;
+                case 3:
                     running = false;
                     break;
             }
