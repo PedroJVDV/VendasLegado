@@ -1,5 +1,6 @@
 package com.pedrojvdv.jdbc.view;
 
+import com.pedrojvdv.jdbc.model.Discount;
 import com.pedrojvdv.jdbc.model.User;
 
 import java.sql.SQLException;
@@ -22,7 +23,12 @@ public class UserMenu {
             System.out.printf("Bem-Vindo!, %s%n", user.getName());
             System.out.println();
             System.out.println();
-            System.out.println("1 - MENU DE PRODUTOS");
+            System.out.println("1 - MENU DE PRODUTOS ");
+            System.out.println("2 - MENU DE DESCONTOS ");
+            System.out.println();
+            System.out.println("====================");
+            System.out.println("9 - VOLTAR");
+            System.out.println("====================");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -31,28 +37,11 @@ public class UserMenu {
                     productMenu.show();
                     break;
                 case 2:
+                    DiscountMenu discountMenu = new DiscountMenu(user, scanner);
+                    discountMenu.show();
+                case 9:
                     running = false;
                     break;
-            }
-        }
-    }
-
-    public void showAdminMenu()throws SQLException{
-        boolean running = true;
-
-        while(running){
-            System.out.println(" || SISTEMA DE ADMINISTRADOR ||");
-            System.out.println("");
-
-            System.out.println("1 - ADMINISTRAÇÃO DE PRODUTOS");
-            System.out.println("2 - ");
-
-            int choice = Integer.parseInt(scanner.nextLine());
-            ProductMenu productMenu = new ProductMenu(user, scanner);
-
-            switch (choice){
-                case 1:
-                    productMenu.adminProductMenu();
             }
         }
     }
