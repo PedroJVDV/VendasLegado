@@ -2,9 +2,11 @@ package com.pedrojvdv.jdbc.view;
 
 import com.pedrojvdv.jdbc.dao.DiscountDao;
 import com.pedrojvdv.jdbc.model.Discount;
+import com.pedrojvdv.jdbc.model.Product;
 import com.pedrojvdv.jdbc.model.User;
 import com.pedrojvdv.jdbc.model.enums.DiscountType;
 import com.pedrojvdv.jdbc.service.DiscountService;
+import com.pedrojvdv.jdbc.service.ProductService;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ import java.util.Scanner;
 
 public class DiscountMenu {
 
-    private final DiscountDao discountDao;
+    private final ProductService productService;
     private final DiscountService discountService;
     private final Scanner scanner;
     private final User user;
@@ -22,8 +24,8 @@ public class DiscountMenu {
     public DiscountMenu(User user, Scanner scanner) {
         this.user = user;
         this.scanner = scanner;
-        this.discountDao = new DiscountDao();
         this.discountService = new DiscountService();
+        this.productService = new ProductService();
     }
 
     public void show() throws SQLException {
@@ -156,8 +158,6 @@ public class DiscountMenu {
         System.out.println("---------------------------------------");
 
         Long id = Long.parseLong(scanner.nextLine());
-        Discount discount = buildDiscount();
-        discount.setId(id);
         discountService.softDeleteDiscount(id);
     }
 
@@ -166,10 +166,7 @@ public class DiscountMenu {
         System.out.println("---------------------------------------");
 
         Long id = Long.parseLong(scanner.nextLine());
-        Discount discount = buildDiscount();
-        discount.setId(id);
         discountService.deleteDiscount(id);
-
     }
 
     private void updateEndDiscount() throws SQLException {
@@ -180,8 +177,8 @@ public class DiscountMenu {
 
         LocalDate endDate = LocalDate.parse(scanner.nextLine());
         Discount discount = buildDiscount();
-        discount.setEndDate(endDate);
-        Integer stock = discount.getStock().getStock();
+        Product product = readProduct();
+        Integer stock = product.getStock();
         discountService.updateEndDate(discount, stock);
     }
 
@@ -193,13 +190,18 @@ public class DiscountMenu {
         Discount discount = buildDiscount();
 
         discount.setProductId(id);
-        Integer stock = discount.getStock().getStock();
+        Product product = readProduct();
+        Integer stock = product.getStock();
         discountService.updateDiscount(discount, stock);
     }
 
     private void createDiscount() throws SQLException {
+        Product product = readProduct();
+        Integer stock = product.getStock();
+
         Discount discount = buildDiscount();
-        Integer stock = discount.getStock().getStock();
+        discount.setProductId(product.getId());
+
         discountService.createDiscount(discount, stock);
     }
 
@@ -285,13 +287,12 @@ public class DiscountMenu {
     }
 
     private Discount buildDiscount() {
-        Long productId = readProductId();
         DiscountType discountType = readDiscountType();
         BigDecimal discountPercentage = readDiscountPercentage();
         LocalDate discountStartDate = readDiscountStartDate();
         LocalDate discountEndDate = readDiscountEndDate();
 
-        return new Discount(productId, discountPercentage, discountType, discountStartDate, discountEndDate);
+        return new Discount(discountPercentage, discountType, discountStartDate, discountEndDate);
     }
 
     private LocalDate readDiscountEndDate() {
@@ -319,25 +320,32 @@ public class DiscountMenu {
         return new BigDecimal(scanner.nextLine());
     }
 
-    private Long readProductId() {
-        System.out.println("DIGITE O ID DO PRODUTO: ");
-        System.out.println("------------------------");
-
-        return scanner.nextLong();
+    private Product readProduct() throws SQLException {
+        System.out.println("DIGITE O ID DO PRODUTO:");
+        System.out.println("----------------------");
+        Long id = Long.parseLong(scanner.nextLine());
+        return productService.getById(id);
     }
 
     private DiscountType readDiscountType() {
         System.out.println("TIPOS DE DESCONTOS DISPONIVEIS:");
-        System.out.println();
         System.out.println("-----------------------");
-        System.out.println("PERMANENTE");
-        System.out.println("TEMPORARIO");
-        System.out.println("AGENDADO");
-        System.out.println("OFERTA RELAMPAGO");
+        System.out.println("1 - PERMANENTE");
+        System.out.println("2 - TEMPORARIO");
+        System.out.println("3 - AGENDADO");
+        System.out.println("4 - OFERTA RELAMPAGO");
         System.out.println("=======================");
         System.out.println("DIGITE SEU TIPO DE DESCONTO: ");
 
-        return DiscountType.valueOf(scanner.nextLine().toUpperCase());
+        String option = scanner.nextLine().trim();
+
+        return switch (option) {
+            case "1" -> DiscountType.PERMANENT;
+            case "2" -> DiscountType.TEMPORARY;
+            case "3" -> DiscountType.SCHEDULED;
+            case "4" -> DiscountType.FLASH_SALE;
+            default -> throw new IllegalArgumentException("OPÇÃO INVÁLIDA");
+        };
     }
 
 }
