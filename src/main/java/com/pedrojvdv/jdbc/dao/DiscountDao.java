@@ -25,7 +25,7 @@ public class DiscountDao {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, discount.getProductId());
             stmt.setBigDecimal(2, discount.getPercentage());
-            stmt.setObject(3, discount.getType());
+            stmt.setString(3, discount.getType().name());
             stmt.setBoolean(4, discount.isActive());
             stmt.setDate(5, Date.valueOf(discount.getStartDate()));
             stmt.setDate(6, Date.valueOf(discount.getEndDate()));
