@@ -3,7 +3,7 @@ package com.pedrojvdv.jdbc.service;
 import com.pedrojvdv.jdbc.dao.DiscountDao;
 import com.pedrojvdv.jdbc.exception.DiscountValidationException;
 import com.pedrojvdv.jdbc.model.Discount;
-import com.pedrojvdv.jdbc.validation.DiscountTypeValidation;
+import com.pedrojvdv.jdbc.model.enums.DiscountType;
 import com.pedrojvdv.jdbc.validation.DiscountValidation;
 
 import java.sql.SQLException;
@@ -67,7 +67,7 @@ public class DiscountService {
         return discountDao.findExpiredDiscounts();
     }
 
-    public List<Discount> findByType()throws DiscountValidationException, SQLException{
+    public List<Discount> findByType(DiscountType discountType)throws DiscountValidationException, SQLException{
         return discountDao.findByType();
     }
 
