@@ -27,8 +27,9 @@ public class DiscountDao {
             stmt.setBigDecimal(2, discount.getPercentage());
             stmt.setString(3, discount.getType().name());
             stmt.setBoolean(4, discount.isActive());
-            stmt.setDate(5, Date.valueOf(discount.getStartDate()));
-            stmt.setDate(6, Date.valueOf(discount.getEndDate()));
+            stmt.setInt(5, discount.getDurationHours());
+            stmt.setDate(6, Date.valueOf(discount.getStartDate()));
+            stmt.setDate(7, Date.valueOf(discount.getEndDate()));
             stmt.executeUpdate();
         }
     }
