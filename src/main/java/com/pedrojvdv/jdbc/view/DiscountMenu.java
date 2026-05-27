@@ -202,6 +202,12 @@ public class DiscountMenu {
         Discount discount = buildDiscount();
         discount.setProductId(product.getId());
 
+        if (discount.getType() == DiscountType.FLASH_SALE){
+            System.out.println("ESCOLHA A DURAÇÃO DA OFERTA RELÂMPAGO: ");
+            int hours = Integer.parseInt(scanner.nextLine());
+            discount.setDurationHours(hours);
+        }
+            
         discountService.createDiscount(discount, stock);
     }
 
