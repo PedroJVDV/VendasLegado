@@ -3,8 +3,8 @@ package com.pedrojvdv.jdbc.queries.discount;
 public class DiscountCrudQueries {
 
     public static final String CREATE_DISCOUNT = """
-            INSERT INTO discount (product_id, percentage, type, active, created_at, start_date, end_date)
-            VALUES(?,?,?,?,CURRENT_TIMESTAMP,?,?)
+            INSERT INTO discount (product_id, percentage, type, active, duration_hours, created_at, start_date, end_date)
+            VALUES(?,?,?,?,?, CURRENT_TIMESTAMP,?,?)
             """;
     // TODO: separated functions by admin
     public static final String UPDATE_DISCOUNT = """
