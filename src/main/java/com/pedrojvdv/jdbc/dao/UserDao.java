@@ -96,4 +96,11 @@ public class UserDao{
         user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return user;
     }
+    
+    @Override
+    public void close() throws Exception {
+        if (connection != null && connection.isClosed()) {
+            connection.close();
+        }
+    }
 }
