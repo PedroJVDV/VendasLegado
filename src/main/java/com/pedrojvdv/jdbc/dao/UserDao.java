@@ -52,8 +52,13 @@ public class UserDao{
         }
     }
 
-    public User findUserByEmail(String email)throws SQLException{
-       return (User) executeQuery(UserQueries.FIND_USER_BY_EMAIL, email);
+    public User findUserByEmail(String email) throws SQLException {
+        List<User> userList= executeQuery(UserQueries.FIND_USER_BY_EMAIL, email);
+
+        if (userList != null && !userList.isEmpty()){
+            return userList.get(0);
+        }
+        return null;
     }
 
     public List<User> findUserById(Long id)throws SQLException{
