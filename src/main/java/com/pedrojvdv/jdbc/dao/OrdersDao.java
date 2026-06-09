@@ -135,7 +135,7 @@ public class OrdersDao {
 
     private Order mapResultSetOder(ResultSet resultSet) throws SQLException {
         Order order = new Order();
-        order.setUserId(resultSet.getLong("id"));
+        order.setId(resultSet.getLong("id"));
         order.setUserId(resultSet.getLong("user_id"));
         order.setTotalPrice(resultSet.getBigDecimal("total_price"));
         order.setOrderStatus(Status.valueOf(resultSet.getString("status")));
