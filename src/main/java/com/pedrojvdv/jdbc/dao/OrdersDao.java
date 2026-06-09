@@ -147,7 +147,7 @@ public class OrdersDao {
     @Override
     public void close() throws Exception {
         if (connection != null && connection.isClosed()){
-            connection.close();;
+            connection.close();
         }
     }
 }
