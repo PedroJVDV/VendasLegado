@@ -84,4 +84,11 @@ public class CartDao {
         cart.setAddedAt(rs.getObject("added_at", LocalDateTime.class));
         return cart;
     }
+
+    @Override
+    public void close() throws Exception {
+        if (connection != null && connection.isClosed()) {
+            connection.close();
+        }
+    }
 }
