@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartDao {
+public class CartDao implements AutoCloseable {
 
     private final Connection connection;
 
@@ -32,11 +32,12 @@ public class CartDao {
         }
     }
 
-    public void updateCartQuantity(Cart cart)throws SQLException{
+    public void updateCartQuantity(Cart cart) throws SQLException {
         String sql = CartQueries.UPDATE_QUANTITY;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, cart.getId());
+            stmt.executeUpdate();
         }
     }
 
@@ -57,7 +58,6 @@ public class CartDao {
             stmt.setLong(1, userId);
             stmt.executeUpdate();
         }
-
     }
 
     public List<Cart> findCartById(Long id) throws SQLException {

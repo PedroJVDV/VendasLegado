@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscountDao {
+public class DiscountDao implements AutoCloseable{
 
     private final Connection connection;
 
@@ -227,7 +227,7 @@ public class DiscountDao {
             return false;
         }
     }
-    
+
     @Override
     public void close() throws Exception {
         if (connection != null && connection.isClosed()) {

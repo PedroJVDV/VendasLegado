@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDao {
+public class ProductDao implements AutoCloseable {
 
     private final Connection connection;
 
@@ -93,10 +93,11 @@ public class ProductDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Product product = mapResultSetToProduct(rs);
-                productList.add(product);
+                    Product product = mapResultSetToProduct(rs);
+                 productList.add(product);
             }
             return productList;
+
         }
     }
 
@@ -109,7 +110,7 @@ public class ProductDao {
         String sql = ProductQueries.FIND_BY_CATEGORY;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, category);
+            stmt.setString(1, category.name());
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

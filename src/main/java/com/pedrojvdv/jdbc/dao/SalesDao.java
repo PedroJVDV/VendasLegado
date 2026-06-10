@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalesDao {
+public class SalesDao implements AutoCloseable {
 
     private final Connection connection;
 
@@ -120,7 +120,7 @@ public class SalesDao {
             stmt.setLong(1, sale.getOrderId());
             ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 saleList.add(mapToResultSale(rs));
             }
         }
@@ -135,14 +135,14 @@ public class SalesDao {
             stmt.setLong(1, sale.getProductId());
             ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 saleList.add(mapToResultSale(rs));
             }
         }
         return saleList;
     }
 
-    public List<Sale> findById(Long id) throws SQLException{
+    public List<Sale> findById(Long id) throws SQLException {
         List<Sale> saleList = new ArrayList<>();
         String sql = SalesQueries.FIND_BY_ID;
 
@@ -150,7 +150,7 @@ public class SalesDao {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 saleList.add(mapToResultSale(rs));
             }
         }

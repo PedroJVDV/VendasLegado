@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao{
+public class UserDao implements AutoCloseable {
 
     private final Connection connection;
 
@@ -21,7 +21,7 @@ public class UserDao{
     public void createUser(User user) throws SQLException {
         String sql = UserCrudQueries.CREATE_USER;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getEmail());
@@ -30,10 +30,10 @@ public class UserDao{
         }
     }
 
-    public void updateUser(User user) throws SQLException{
+    public void updateUser(User user) throws SQLException {
         String sql = UserCrudQueries.UPDATE_USER;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, user.getName());
             stmt.setString(2, user.getPassword());
             stmt.setObject(3, user.getEmail());
@@ -43,10 +43,10 @@ public class UserDao{
         }
     }
 
-    public void deleteUser(User user) throws SQLException{
+    public void deleteUser(User user) throws SQLException {
         String sql = UserCrudQueries.DELETE_USER;
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());
             stmt.executeUpdate();
         }
@@ -61,23 +61,23 @@ public class UserDao{
         return null;
     }
 
-    public List<User> findUserById(Long id)throws SQLException{
+    public List<User> findUserById(Long id) throws SQLException {
         return executeQuery(UserQueries.FIND_USER_BY_ID, id);
     }
 
-    public List<User> findUserByUsername(String name)throws SQLException{
+    public List<User> findUserByUsername(String name) throws SQLException {
         return executeQuery(UserQueries.FIND_USER_BY_USERNAME, name);
     }
 
-    private List<User> executeQuery(String sql, Object... args)throws SQLException{
+    private List<User> executeQuery(String sql, Object... args) throws SQLException {
         List<User> userList = new ArrayList<>();
 
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
-            for (int i = 0; i < args.length ; i++) {
-                stmt.setObject(i+1,args[i] );
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (int i = 0; i < args.length; i++) {
+                stmt.setObject(i + 1, args[i]);
             }
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 User user = mapResultToUser(rs);
                 userList.add(user);
             }
@@ -85,7 +85,7 @@ public class UserDao{
         }
     }
 
-    private User mapResultToUser(ResultSet rs) throws SQLException{
+    private User mapResultToUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getLong("id"));
         user.setName(rs.getString("name"));
@@ -96,7 +96,7 @@ public class UserDao{
         user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return user;
     }
-    
+
     @Override
     public void close() throws Exception {
         if (connection != null && connection.isClosed()) {

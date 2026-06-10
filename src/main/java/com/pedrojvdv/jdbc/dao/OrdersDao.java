@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersDao {
+public class OrdersDao implements AutoCloseable {
 
     private final Connection connection;
 
@@ -143,7 +143,7 @@ public class OrdersDao {
         order.setUpdatedAt(resultSet.getObject("updated_at", LocalDateTime.class));
         return order;
     }
-          
+
     @Override
     public void close() throws Exception {
         if (connection != null && connection.isClosed()){
