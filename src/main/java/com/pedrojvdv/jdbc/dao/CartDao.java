@@ -48,12 +48,11 @@ public class CartDao implements AutoCloseable {
             stmt.setLong(1, id);
             stmt.executeUpdate();
         }
-
     }
 
     public void deleteCartByUser(Long userId)throws SQLException{
         String sql = CartQueries.DELETE;
-        
+
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setLong(1, userId);
             stmt.executeUpdate();
@@ -67,6 +66,21 @@ public class CartDao implements AutoCloseable {
             stmt.setLong(1, userId);
             stmt.executeUpdate();
         }
+    }
+
+    public List<Cart> findCartProducts(Long userId)throws SQLException{
+        List<Cart> cartList = new ArrayList<>();
+        String sql = CartQueries.FIND_CART_PRODUCTS;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setLong(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                cartList.add(mapToResultSet(rs));
+            }
+        }
+        return cartList;
     }
 
     public List<Cart> findCartById(Long id) throws SQLException {
@@ -91,6 +105,12 @@ public class CartDao implements AutoCloseable {
         cart.setUserId(rs.getLong("user_id"));
         cart.setQuantity(rs.getInt("quantity"));
         cart.setAddedAt(rs.getObject("added_at", LocalDateTime.class));
+        cart.setQuantity(rs.getInt("quantity"));
+        cart.setProductName(rs.getString("product_name"));
+        cart.setOriginalPrice(rs.getBigDecimal("original_price"));
+        cart.setProductDiscount(rs.getBigDecimal("product_discount"));
+        cart.setFinalPrice(rs.getBigDecimal("final_price"));
+        cart.setDiscountType(rs.getString("discount_type"));
         return cart;
     }
 
