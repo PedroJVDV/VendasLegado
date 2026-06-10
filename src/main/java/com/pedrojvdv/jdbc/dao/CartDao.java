@@ -51,6 +51,15 @@ public class CartDao implements AutoCloseable {
 
     }
 
+    public void deleteCartByUser(Long userId)throws SQLException{
+        String sql = CartQueries.DELETE;
+        
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setLong(1, userId);
+            stmt.executeUpdate();
+        }
+    }
+
     public void softDeleteCart(Long userId) throws SQLException {
         String sql = CartQueries.SOFT_DELETE;
 
