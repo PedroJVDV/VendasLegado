@@ -28,6 +28,7 @@ public class CartQueries {
                 ON c.product_id = p.id
             LEFT JOIN discount d
                 ON p.id = d.product_id
+            WHERE c.user_id = ?
             """;
     public static final String FIND_CART_USERID = """
             SELECT
