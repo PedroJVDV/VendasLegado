@@ -25,7 +25,8 @@ public class UserMenu {
             System.out.println();
             System.out.println("1 - MENU DE PRODUTOS ");
             System.out.println("2 - MENU DE DESCONTOS ");
-            System.out.println();
+            System.out.println("----------------------");
+            System.out.println("3 - MEU CARRINHO");
             System.out.println("====================");
             System.out.println("9 - VOLTAR");
             System.out.println("====================");
@@ -39,6 +40,9 @@ public class UserMenu {
                 case 2:
                     DiscountMenu discountMenu = new DiscountMenu(user, scanner);
                     discountMenu.show();
+                case 3:
+                    CartMenu cartMenu = new CartMenu(user, scanner);
+                    cartMenu.showUserCart();
                 case 9:
                     running = false;
                     break;
