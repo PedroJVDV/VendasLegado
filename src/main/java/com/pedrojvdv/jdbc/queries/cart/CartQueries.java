@@ -6,6 +6,7 @@ public class CartQueries {
             INSERT INTO cart(product_id, user_id, quantity, added_at)
             VALUES(?, ?, ?, CURRENT_TIMESTAMP)
             """;
+
     public static final String DELETE = """
             DELETE FROM cart
             WHERE id = ?
@@ -14,7 +15,6 @@ public class CartQueries {
             DELETE FROM cart
             WHERE user_id = ?
             """;
-
     public static final String FIND_CART_PRODUCTS = """
             SELECT
                 c.quantity,
@@ -29,6 +29,24 @@ public class CartQueries {
             LEFT JOIN discount d
                 ON p.id = d.product_id
             WHERE c.user_id = ?
+            """;
+
+    public static final String FIND_CARTS = """
+            SELECT
+                c.user_id,
+                c.quantity,
+                p.name AS product_name,
+                p.price AS original_price,
+                d.percentage AS product_discount,
+                p.price * (1 - COALESCE(d.percentage, 0) / 100) AS final_price,
+                d.type AS discount_type
+            FROM cart c
+            LEFT JOIN users u
+                ON c.user_id = u.id
+            LEFT JOIN products p
+                ON c.product_id = p.id
+            LEFT JOIN discount d
+                ON p.id = d.product_id
             """;
     public static final String FIND_CART_USERID = """
             SELECT
