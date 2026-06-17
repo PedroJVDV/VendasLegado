@@ -16,19 +16,19 @@ public class CartService {
         this.cartDao = new CartDao();
     }
 
-    public void createCart(Cart cart)throws SQLException, CartException {
+    public void createCart(Cart cart) throws SQLException, CartException {
         cartDao.createCart(cart);
     }
 
-    public void updateCartQuantity(Cart cart) throws SQLException, CartException{
+    public void updateCartQuantity(Cart cart) throws SQLException, CartException {
         cartDao.updateCartQuantity(cart);
     }
 
-    public void deleteCart(Long id)throws SQLException, CartException{
+    public void deleteCart(Long id) throws SQLException, CartException {
         cartDao.deleteCart(id);
     }
 
-    public void softDeleteCart(Long userId)throws SQLException, CartException{
+    public void softDeleteCart(Long userId) throws SQLException, CartException {
         cartDao.softDeleteCart(userId);
     }
 
@@ -41,18 +41,26 @@ public class CartService {
     }
 
 
-    public List<Cart> findCartById(Long id)throws SQLException, CartException{
-        if (id == null){
+    public List<Cart> findCartById(Long id) throws SQLException, CartException {
+        if (id == null) {
             throw new CartException("ID DE CARRINHO INVÁLIDO OU INEXISTENTE!");
         }
         return cartDao.findCartById(id);
     }
 
-    public List<Cart> findUserCart(Long userId)throws SQLException{
+    public List<Cart> findUserCart(Long userId) throws SQLException {
         if (userId == null) {
             throw new UserException("Usuário inválido ou inexistente");
         }
         return cartDao.findCartProducts(userId);
+    }
+
+    public List<Cart> findCart() throws SQLException {
+
+        if (cartDao.findCarts().isEmpty()) {
+            throw new CartException("Carrinho inexistente!");
+        }
+        return cartDao.findCarts();
     }
 
 }
