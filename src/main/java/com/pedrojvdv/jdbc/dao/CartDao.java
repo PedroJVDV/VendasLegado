@@ -83,6 +83,19 @@ public class CartDao implements AutoCloseable {
         return cartList;
     }
 
+    public List<Cart> findCarts()throws SQLException{
+        List<Cart> cartList = new ArrayList<>();
+        String sql = CartQueries.FIND_CARTS;
+
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                cartList.add(mapToResultSet(rs));
+            }
+        }
+        return cartList;
+    }
+
     public List<Cart> findCartById(Long id) throws SQLException {
         List<Cart> cartList = new ArrayList<>();
         String sql = CartQueries.FIND_CART_USERID;
