@@ -9,6 +9,7 @@ public class AdminMenu {
 
     private final DiscountMenu discountMenu;
     private final ProductMenu productMenu;
+    private final CartMenu cartMenu;
     private final Scanner scanner;
     private final User user;
 
@@ -17,6 +18,7 @@ public class AdminMenu {
         this.scanner = scanner;
         this.discountMenu = new DiscountMenu(user, scanner);
         this.productMenu = new ProductMenu(user, scanner);
+        this.cartMenu = new CartMenu(user, scanner);
     }
 
     public void showAdminMenu() throws SQLException {
@@ -24,10 +26,15 @@ public class AdminMenu {
 
         while (running) {
             System.out.println(" || SISTEMA DE ADMINISTRADOR ||");
-            System.out.println("");
-
+            System.out.println();
+            System.out.println("-------------------------------");
             System.out.println("1 - ADMINISTRAÇÃO DE PRODUTOS");
+            System.out.println();
             System.out.println("2 - ADMINISTRAÇÃO DE DESCONTOS");
+            System.out.println();
+            System.out.println("3 - ADMINISTRAR CARRINHOS");
+            System.out.println();
+            System.out.println("7 - VOLTAR");
 
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -38,6 +45,8 @@ public class AdminMenu {
                 case 2:
                     adminDiscountMenu();
                     break;
+                case 3:
+                    adminCartMenu();
                 case 7:
                     running = false;
                     break;
@@ -99,4 +108,36 @@ public class AdminMenu {
         }
     }
 
+    public void adminCartMenu() throws SQLException {
+        System.out.printf(user.getName(), "ESTE É SEU GERENCIADOR DE CARRINHOS");
+        System.out.println();
+        System.out.println();
+        System.out.println("======================");
+        System.out.println();
+        System.out.println("======================");
+        System.out.println("1 - CARRINHOS POR |ID|");
+        System.out.println("2 - USUÁRIOS COM CARRINHO ATIVO");
+        System.out.println("3 - DELETAR CARRINHO");
+
+        boolean running = true;
+
+        while (running) {
+
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    cartMenu.findAdminCart();
+                    break;
+                case 2:
+                    cartMenu.findCarts();
+                    break;
+                case 3:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
+            }
+        }
+    }
 }
