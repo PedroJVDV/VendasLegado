@@ -29,55 +29,35 @@ public class CartMenu {
             System.out.println();
             System.out.println();
             System.out.println("======================");
+            System.out.println();
             findUserCart();
+            System.out.println();
             System.out.println("======================");
             System.out.println("1 - LIMPAR CARRINHO");
+            System.out.println("2 - ATUALIZAR CARRINHO");
+            System.out.println();
             System.out.println("---------------");
-            System.out.println("2 - VOLTAR");
+            System.out.println("3 - VOLTAR");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
-                    cartService.deleteCartByUser(user.getId());
+                    deleteCart();
                     System.out.println("CARRINHO LIMPO COM SUCESSO!");
                     break;
                 case 2:
-                    running = false;
-                    break;
-            }
-        }
-    }
-
-    public void showAdminCart() throws SQLException {
-        boolean running = true;
-
-        while (running) {
-            System.out.printf(user.getName(), "ESTE É SEU GERENCIADOR DE CARRINHOS");
-            System.out.println();
-            System.out.println();
-            System.out.println("======================");
-            System.out.println();
-            System.out.println("======================");
-            System.out.println("1 - CARRINHOS POR |ID|");
-            System.out.println("2 - USUÁRIOS COM CARRINHO ATIVO");
-
-            int choice = Integer.parseInt(scanner.nextLine());
-
-            switch (choice) {
-                case 1:
-                    findAdminCart();
-                    break;
-                case 2:
-                    deleteCart();
+                    updateCart();
                     break;
                 case 3:
-
+                    running = false;
+                    break;
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA, TENTE NOVAMENTE!");
             }
-
         }
     }
 
-    private void findUserCart() throws SQLException {
+    protected void findUserCart() throws SQLException {
         System.out.println();
         List<Cart> carts = cartService.findUserCart(user.getId());
         for (Cart cart : carts) {
@@ -85,7 +65,7 @@ public class CartMenu {
         }
     }
 
-    private void findAdminCart() throws SQLException {
+    protected void findAdminCart() throws SQLException {
         System.out.println();
         List<Cart> carts = cartService.findCartById(user.getId());
         for (Cart cart : carts) {
@@ -93,29 +73,48 @@ public class CartMenu {
         }
     }
 
-    private void deleteCart() throws SQLException{
+    protected void findCarts()throws SQLException{
+        System.out.println();
+        List<Cart> carts = cartService.findCart();
+        for (Cart cart : carts){
+            System.out.println(cart.AdmintoString());
+        }
+    }
+
+    protected void deleteCart() throws SQLException{
         System.out.println();
         cartService.deleteCart(user.getId());
         System.out.println();
         System.out.println("CARRINHO DELETADO COM SUCESSO!");
     }
 
-    private void createCart()throws SQLException{
+    protected void createCart()throws SQLException{
         System.out.println();
-        cartConstructor();
 
+        Cart cart = new Cart();
+        cart.setUserId(user.getId());
 
-        // TODO: IMPLEMENTANDO E PENSANDO NO CREATE/UPDATE!
+        cartConstructor(cart);
+        cartService.createCart(cart);
     }
 
-    private void updateCart()throws SQLException{
+    protected void updateCart()throws SQLException{
+        List<Cart> cartList = cartService.findCartById(user.getId());
+
+        System.out.println("|ATUALIZADOR DE CARRINHO|");
         System.out.println();
-        cartService.updateCartQuantity();
+        System.out.println("NOVA QUANTIDADE DO CARRINHO: ");
+
+        Cart cart = cartList.get(0);
+        int quantity = Integer.parseInt(scanner.nextLine());
+        cart.setQuantity(quantity);
+
+        cartService.updateCartQuantity(cart);
+        System.out.println();
+        System.out.println("CARRINHO ATUALIZADO");
     }
 
     private void cartConstructor(Cart cart){
-        cart.getProductId();
-        cart.getUserId();
         System.out.println("| ADIÇÃO DE PRODUTOS NO CARRINHO | ");
         System.out.println();
         System.out.println("DIGITE A QUANTIDADE DE PEDIDOS QUE DESEJA: ");
